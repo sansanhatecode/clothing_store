@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Modern Admin Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+</head>
+
+
+<body ng-app="admin-app">
+    <div id="handle">
+        <section class="row" style="position: absolute; left: 34vw; top: 10vh;">
+            <div class="col-12">
+                <form action="" method="post">
+                    <div class="card">
+                        <i id="exit" class="fa-solid fa-x" style="margin-left: 37vw;"></i>
+                              
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="text" class="form-control" name="email" id="email"
+                                                    aria-describedby="emailhelpId" placeholder="Email">
+    
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Phone">Số điện thoại</label>
+                                                <input type="text" class="form-control" name="Phone" id="Phone"
+                                                    placeholder="Phone">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="date">Ngày</label>
+                                                <input type="text" class="form-control" name="date" id="date"
+                                                    aria-describedby="datehelpId" placeholder="Created Date">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Deleted">Đặc quyền</label>
+                                                <fieldset>
+                                                    <input type="radio" id="Admin" name="privilege" value="Admin" checked>
+                                                    <label for="Admin">Quản lý</label>
+                                                    <input type="radio" id="User" name="privilege" value="User">
+                                                    <label for="User">Nhân viên</label>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="">Họ và tên</label>
+                                                <input type="text" class="form-control" name="username" id="username"
+                                                    aria-describedby="usernamehelpId" placeholder="username">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Mật khẩu</label>
+                                                <input type="password" class="form-control" name="password" id="password"
+                                                    placeholder="password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="confirmpass">Xác nhận mật khẩu</label>
+                                                <input type="text" class="form-control" name="confirmpass" id="confirmpass"
+                                                    aria-describedby="confirmpasshelpId" placeholder="confirm pass">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Address">Địa chỉ</label>
+                                                <input type="text" class="form-control" name="Address" id="Address"
+                                                    aria-describedby="AddresshelpId" placeholder="Address">
+                                            </div>
+    
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn">Thêm mới</button>
+                                    <button class="btn">Sửa</button>
+                                    <button class="btn">Xoá</button>
+                                    <button class="btn">Làm mới</button>
+                                </div>
+                            </div>
+    
+                        </form>
+    
+              
+    
+        </section>
+    </div>
+    <input type="checkbox" id="menu-toggle">
+    <div th:replace="admin/sidemenu :: div"></div>
+    <div class="main-content">
+        <header>
+            <div class="header-content">
+                <label for="menu-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+
+                <div class="header-menu">
+<!--                    <label for="">-->
+<!--                        <span class="las la-search"></span>-->
+<!--                    </label>-->
+
+<!--                    <div class="notify-icon">-->
+<!--                        <span class="las la-envelope"></span>-->
+<!--                        <span class="notify">4</span>-->
+<!--                    </div>-->
+
+<!--                    <div class="notify-icon">-->
+<!--                        <span class="las la-bell"></span>-->
+<!--                        <span class="notify">3</span>-->
+<!--                    </div>-->
+
+                    <div class="user">
+<!--                        <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>-->
+
+                        <span class="las la-power-off"></span>
+                        <span><a th:href="@{/logout}" class="log">Đăng xuất</a></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="page-header">
+                <h1>Quản Lý </h1>
+                <small>Quản lý </small>
+            </div>
+            <div class="page-content">
+                <div class="analytics">
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>107,200</h2>
+                            <span class="las la-user-friends"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Hoạt động người dùng trong tháng</small>
+                            <div class="card-indicator">
+                                <div class="indicator one" style="width: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>340,230</h2>
+                            <span class="las la-eye"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Số lược xem </small>
+                            <div class="card-indicator">
+                                <div class="indicator two" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>$653,200</h2>
+                            <span class="las la-shopping-cart"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Doanh thu trong tháng</small>
+                            <div class="card-indicator">
+                                <div class="indicator three" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>47,500</h2>
+                            <span class="las la-envelope"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Email mới được nhận</small>
+                            <div class="card-indicator">
+                                <div class="indicator four" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="records table-responsive">
+                    <div class="record-header">
+                        <div class="add">
+                            <span>Mục</span>
+                            <select name="" id="">
+                                <option value="">ID</option>
+                            </select>
+                            <button id="Addrecord">Thêm tài khoản</button>
+                        </div>
+
+                        <div class="browse">
+                            <input type="search" placeholder="Tìm kiếm...." class="record-search">
+                            <select name="" id="">
+                                <option value="">Trạng thái</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <th><span class="las la-sort"></span> Tên đăng nhập</th>
+                                    <th><span class="las la-sort"></span> Họ và tên</th>
+                                    <th><span class="las la-sort"></span> Mật khẩu</th>
+                                    <th><span class="las la-sort"></span> Email</th>
+                                    <th><span class="las la-sort"></span> Số điện thoại</th>
+                                    <th><span class="las la-sort"></span> Ngày</th>
+                                    <th><span class="las la-sort"></span> Địa chỉ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>anLK</td>
+                                    <td>Đinh Quang Trường</td>
+                                    <td>123</td>
+                                    <td>ank@gmail.com</td>
+                                    <td>0123456789</td>
+                                    <td>19 April, 2022</td>
+                                    <td>Quận 12 Tp HCM</td>
+                                </tr>
+                                <tr>
+                                    <td>anLK</td>
+                                    <td>Lâm Khánh An</td>
+                                    <td>123</td>
+                                    <td>ank@gmail.com</td>
+                                    <td>0123456789</td>
+                                    <td>19 April, 2022</td>
+                                    <td>Quận 12 Tp HCM</td>
+                                </tr>
+                                <tr>
+                                    <td>anLK</td>
+                                    <td>Lâm Khánh An</td>
+                                    <td>123</td>
+                                    <td>ank@gmail.com</td>
+                                    <td>0123456789</td>
+                                    <td>19 April, 2022</td>
+                                    <td>Quận 12 Tp HCM</td>
+                                </tr>
+                                <tr>
+                                    <td>anLK</td>
+                                    <td>Lâm Khánh An</td>
+                                    <td>123</td>
+                                    <td>ank@gmail.com</td>
+                                    <td>0123456789</td>
+                                    <td>19 April, 2022</td>
+                                    <td>Quận 12 Tp HCM</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+</body>
+    <script>
+        const Add = document.querySelector("#Addrecord")
+        const handleclick = () => {
+            handle.classList.toggle("handle")
+        }
+        Add.addEventListener("click",handleclick)
+        document.querySelector("#exit").addEventListener("click",()=>{
+            // const handle = document.querySelector(".handle")
+            handle.classList.remove("handle")
+        })
+    </script>
+    <script src="/admin/authorities/authority-ctrl.js"></script>
+    <script src="/admin/admin-app.js"></script>
+</html>

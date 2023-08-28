@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Modern Admin Dashboard</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet"
+          href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          th:href="@{/admin/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet"
+          href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet"
+          th:href="@{/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+    <!-- iCheck -->
+    <link rel="stylesheet"
+          th:href="@{/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+    <!-- JQVMap -->
+    <link rel="stylesheet" th:href="@{/admin/plugins/jqvmap/jqvmap.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/admin/dist/css/adminlte.min.css}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet"
+          th:href="@{/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet"
+          th:href="@{/admin/plugins/daterangepicker/daterangepicker.css}">
+    <!-- summernote -->
+    <link rel="stylesheet"
+          th:href="@{/admin/plugins/summernote/summernote-bs4.min.css}">
+</head>
+
+
+<body ng-app="admin-app">
+<div id="handle">
+</div>
+<input type="checkbox" id="menu-toggle">
+<div th:replace="admin/sidemenu :: div"></div>
+<div class="main-content">
+    <header>
+        <div class="header-content">
+            <label for="menu-toggle"> <span class="las la-bars"></span>
+            </label>
+
+            <div class="header-menu">
+                <!--                <label for=""> <span class="las la-search"></span>-->
+                <!--                </label>-->
+
+                <!--                <div class="notify-icon">-->
+                <!--                    <span class="las la-envelope"></span> <span class="notify">4</span>-->
+                <!--                </div>-->
+
+                <!--                <div class="notify-icon">-->
+                <!--                    <span class="las la-bell"></span> <span class="notify">3</span>-->
+                <!--                </div>-->
+
+                <div class="user">
+                    <!--                    <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>-->
+
+                    <span class="las la-power-off"></span>
+                    <span><a th:href="@{/logout}" class="log">Logout</a></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="page-header">
+            <h1>Thống kê doanh thu</h1>
+            <small>Quản lý / Thống kê doanh thu</small>
+        </div>
+
+        <section class="col-lg-12 connectedSortable">
+            <!-- solid sales graph -->
+            <div class="card">
+                <div class="card-header border-0">
+                    <h3 class="card-title">
+                        Thống kê doanh thu của <a th:text="${date}"></a>
+                    </h3>
+                    <br>
+                    <br>
+                    <select class="select-css" name="year" id="year" size="1"></select>
+
+                    <select class="select-css" name="month" id="month" size="1"></select>
+
+                    <!--                    <select class="select-css" name="day" id="day" size="1">-->
+                    <!--                        <option value=" " selected="selected">&#45;&#45; Day &#45;&#45;</option>-->
+                    <!--                    </select>-->
+                    <button class="button"
+                            type="button" th:attr="onclick='checkout()'">Xem
+                    </button>
+                    <div class="card-tools">
+                        <button type="button" class="btn bg-info btn-sm"
+                                data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn bg-info btn-sm"
+                                data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="canvasChart"
+                            style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</div>
+</body>
+
+</script>
+<script src="/admin/authorities/authority-ctrl.js"></script>
+<script src="/admin/admin-app.js"></script>
+
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/admin/plugins/jquery-ui/jquery-ui.min.js}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- ChartJS -->
+<script th:src="@{/admin/plugins/chart.js/Chart.min.js}"></script>
+<!-- Sparkline -->
+<script th:src="@{/admin/plugins/sparklines/sparkline.js}"></script>
+<!-- JQVMap -->
+<script th:src="@{/admin/plugins/jqvmap/jquery.vmap.min.js}"></script>
+<script th:src="@{/admin/plugins/jqvmap/maps/jquery.vmap.usa.js}"></script>
+<!-- jQuery Knob Chart -->
+<script th:src="@{/admin/plugins/jquery-knob/jquery.knob.min.js}"></script>
+<!-- daterangepicker -->
+<script th:src="@{/admin/plugins/moment/moment.min.js}"></script>
+<script th:src="@{/admin/plugins/daterangepicker/daterangepicker.js}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script
+        th:src="@{/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+<!-- Summernote -->
+<script th:src="@{/admin/plugins/summernote/summernote-bs4.min.js}"></script>
+<!-- overlayScrollbars -->
+<script
+        th:src="@{/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin/dist/js/adminlte.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/admin/dist/js/demo.js}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script th:src="@{/admin/dist/js/pages/dashboard.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA][*/
+    var totalPriceLast6Months = /*[[${chartData}]]*/ 'default';
+    /*]]>*/
+    const ctx = document.getElementById('canvasChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: totalPriceLast6Months[0],
+            datasets: [{
+                label: ' Doanh thu',
+                data: totalPriceLast6Months[1],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false,
+                        callback: function (value, index, values) {
+                            return value.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
+                        }
+                    }
+                }]
+            }
+        }
+    });
+</script>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script>
+    $(function () {
+//Năm tự động điền vào select
+        var seYear = $('#year');
+        var date = new Date();
+        var cur = date.getFullYear();
+
+        seYear.append('<option value="">Năm</option>');
+        for (i = cur; i >= 1900; i--) {
+            seYear.append('<option value="' + i + '">' + i + '</option>');
+        }
+        ;
+
+        //Tháng tự động điền vào select
+        var seMonth = $('#month');
+        var date = new Date();
+
+        var month = new Array();
+        month[1] = "1";
+        month[2] = "2";
+        month[3] = "3";
+        month[4] = "4";
+        month[5] = "5";
+        month[6] = "6";
+        month[7] = "7";
+        month[8] = "8";
+        month[9] = "9";
+        month[10] = "10";
+        month[11] = "11";
+        month[12] = "12";
+
+        seMonth.append('<option value="">Tháng</option>');
+        for (i = 12; i > 0; i--) {
+            seMonth.append('<option value="' + i + '">' + month[i] + '</option>');
+        }
+        ;
+
+        //Ngày tự động điền vào select
+        function dayList(month, year) {
+            var day = new Date(year, month, 0);
+            return day.getDate();
+        }
+
+        $('#year, #month').change(function () {
+            //Đoạn code lấy id không viết bằng jQuery để phù hợp với đoạn code bên dưới
+            var y = document.getElementById('year');
+            var m = document.getElementById('month');
+            var d = document.getElementById('day');
+
+            var year = y.options[y.selectedIndex].value;
+            var month = m.options[m.selectedIndex].value;
+            var day = d.options[d.selectedIndex].value;
+            if (day == ' ') {
+                var days = (year == ' ' || month == ' ') ? 31 : dayList(month, year);
+                d.options.length = 0;
+                d.options[d.options.length] = new Option('-- Day --', ' ');
+                for (var i = 1; i <= days; i++)
+                    d.options[d.options.length] = new Option(i, i);
+            }
+        });
+    });
+</script>
+<script>
+    function checkout() {
+        // var day = document.getElementById("day").value;
+        var month = document.getElementById("month").value;
+        var year = document.getElementById("year").value;
+        // if (day == ' ') {
+        //     day = "0";
+        // }
+        if (month == '') {
+            month = "0";
+        }
+        if (year == '') {
+            year = "0";
+        }
+        var endpoint = '/admin/TotalStatisticsByDay/' + month + '/' + year;
+        window.location.assign(endpoint)
+    }
+</script>
+<style>
+    .select-css {
+        font-size: 16px;
+        font-family: sans-serif;
+        font-weight: 700;
+        color: #444;
+        line-height: 1.3;
+        padding: .6em 1.4em .5em .8em;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        border: 1px solid #aaa;
+        box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+        border-radius: .5em;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #fff;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+        linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+        background-repeat: no-repeat, repeat;
+        background-position: right .7em top 50%, 0 0;
+        background-size: .65em auto, 100%;
+    }
+
+    .select-css::-ms-expand {
+        display: none;
+    }
+
+    .select-css:hover {
+        border-color: #888;
+    }
+
+    .select-css:focus {
+        border-color: #aaa;
+        box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+        box-shadow: 0 0 0 3px -moz-mac-focusring;
+        color: #222;
+        outline: none;
+    }
+
+    .select-css option {
+        font-weight: normal;
+    }
+
+    .button {
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+    }
+
+    .button:hover {
+        background-color: white;
+        color: #0048ff;
+    }
+
+    .button {
+        background-color: lightsalmon;
+    }
+
+    .button {
+        font-size: 12px;
+        background-color: LightSalmon;
+    }
+
+    .button {
+        padding: 12px 28px;
+    }
+
+    .button {
+        width: 100px;
+    }
+
+    .button {
+        border-radius: 8px;
+    }
+
+    .button {
+        background-color: white;
+        color: black;
+        border: 2px solid #1464dc;
+    }
+
+</style>
+</html>

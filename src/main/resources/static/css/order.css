@@ -1,0 +1,163 @@
+.table thead th {
+    width: 100%;
+}
+ tbody tr:hover{
+    cursor: pointer;
+    background-color: #f1f4f9;
+}
+ table{
+     width: 100%;
+ }
+
+#pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination{
+    border: 1px solid #191970;
+    margin: 10px;
+    padding: 5px 15px;
+    color: #191970;
+}
+.pagination:hover{
+    border: none;
+    color : #fff;
+    background: #191970;
+    scale: 1.1;
+}
+#pagination .active{
+    border: none;
+    color: #fff;
+    background: #191970;
+    margin: 10px;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+.default{
+    overflow: scroll;
+    display: none;
+    transition: .5s ease-in-out;
+}
+.default::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+}
+.showOrderDetailTable{
+    margin-top: 40px;
+}
+.showOrderDetailTable tbody td:last-child{
+    padding-right: 0 !important;
+}
+table thead th{
+    width: auto !important;
+}
+.activeTable{
+    position: absolute;
+    height: 40vh;
+    width: 75vw;
+    top: 60vh;
+    text-align: center;
+    display: inline;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    scale: 1;
+    transition: .5s ease;
+    border: 2px solid #191970;
+    left: 18%;
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+    margin-top: 10vh;
+}
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+.activeTable::after{
+    content: "";
+    position: absolute;
+    top: -23px;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #191970 transparent;
+}
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+#pagination{
+    padding-top: 80px;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+.pagination{
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+}
+.exitFormOrderDetail{
+    float: right;
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    right: 12px;
+    padding-top: 4px;
+    font-size: 30px;
+    color: #191970;
+    border: 2px solid #191970;
+    transition: .3s ease;
+}
+.exitFormOrderDetail:hover{
+    background-color: #191970;
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    scale: 1.1;
+    transition: .3s ease;
+}
+.dislabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    border: 1px solid #191970;
+    margin: 10px;
+    padding: 5px 15px;
+    color: #191970;
+    border-radius: 4px;
+}
+.order{
+    position: absolute;
+    right: 15px;
+    font-size: 1.5rem !important;
+    margin-bottom: 2px;
+}
+#All:hover, #done:hover, #CancelOrder:hover, #Processing:hover{
+    border: 1px solid #191970;
+    scale: 1.05;
+    transition: .2s;
+    cursor: pointer;
+}
+.card .card-head span {
+    color: #212529 !important;
+}

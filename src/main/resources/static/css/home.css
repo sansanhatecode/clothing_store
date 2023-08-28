@@ -1,0 +1,117 @@
+    .products:hover .thumbnail a > img {
+        width: 50% !important;
+        border-radius: 5px;
+        transition: .2s ease-in-out;
+        transform: translate(-50px, -20px);
+    }
+    .products:hover{
+        background: linear-gradient(0deg, rgba(30,111,137,1) 0%, rgba(121,121,121,.8) 0%, rgba(247,243,243,1) 45%) !important;
+        box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
+    }
+   .priceAndName{
+       height: 350px;
+   }
+   .button_group{
+
+       position: absolute;
+   }
+    .products:hover .imgShow {
+        transform: translateX(-90px);
+        transition: .3s ease-in-out;
+    }
+
+    .products .thumbnail a > img {
+        transition: .2s ease-in-out;
+        max-width: 60%;
+        max-height: 230px;
+    }
+
+    @-webkit-keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .products:hover .productname {
+        width: 45%;
+        padding-top: 20px;
+        font-size: 17px;
+        margin-left: 4px;
+        transition: .2s ease-in-out;
+        font-weight: 500;
+    }
+
+    .products:hover .price {
+        width: 45%;
+        font-size: 17px;
+        padding-top: 17px;
+        float: right;
+        margin-right: 4px;
+        transition: .2s ease-in-out;
+    }
+    .price{
+        color: black !important;
+    }
+    .products {
+        transition: .2s ease-in-out;
+        margin-top: 6px !important;
+    }
+
+    .thumbnail {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 130% !important;
+        background: transparent !important;
+    }
+
+    .imgShow {
+        width: 30%;
+        float: right;
+    }
+
+    .imgShow img {
+        max-width: 70%;
+        float: right;
+    }
+
+    .imgthumnail {
+        width: 100%;
+    }
+
+    .colorProduct {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 70%;
+        float: left;
+        margin-left: -10px;
+        margin-top: -18px;
+    }
+
+    .products:hover .colorProduct {
+        display: flex;
+        -webkit-animation: fadeIn 1s;
+        animation: fadeIn 1s;
+    }
+
+    .color-style {
+        height: 25px;
+        width: 25px;
+        border-radius: 50%;
+        background-color: var(--data-color);
+        margin: 0 5px;
+    }
+

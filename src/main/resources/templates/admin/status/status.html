@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1"
+          name="viewport">
+    <title>Modern Admin Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet">
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          rel="stylesheet">
+    <link href="/css/status.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link crossorigin="anonymous"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          referrerpolicy="no-referrer" rel="stylesheet"/>
+    <link href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+          rel="stylesheet">
+</head>
+
+<body>
+<div aria-atomic="true" aria-live="assertive" class="toast" id="status" role="alert" th:class="${messStatus}">
+    <div class="toast-header">
+        <!--        <img src="..." class="rounded mr-2" alt="...">-->
+        <strong class="mr-auto">Thông báo</strong>
+        <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast" onclick="hanlderemoveStatus()"
+                type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        <div th:text="${orderProcessing}"></div>
+        <div class="card-indicator">
+            <div class="indicator one" id="body_mess"></div>
+        </div>
+
+    </div>
+
+</div>
+<div id="handle">
+    <section class="row" style="position: absolute; left: 25vw; top: 12vh;width: 850px">
+        <div class="col-12">
+            <div class="bodyOrder" id="tbl1"
+                 style="height: 245px; width: 810px; position: absolute; top:42px; z-index: 1;margin-left: 8px;background-color: #fff; overflow-y: scroll">
+                <table style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th><span class="las la-sort"></span> Mã hóa đơn</th>
+                        <th><span class="las la-sort"></span> Tên sản phẩm</th>
+                        <th><span class="las la-sort"></span> Màu sản phẩm</th>
+                        <th><span class="las la-sort"></span> Giá</th>
+                        <th><span class="las la-sort"></span> Số lượng</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bodyOrder">
+
+                    </tbody>
+                </table>
+            </div>
+            <form id="form" method="post"
+                  th:object="${status}">
+                <div class="card">
+                    <i class="fa-solid fa-x" id="exit" style="position: absolute; right:15px ; cursor: pointer"></i>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="orderID">Mã hóa đơn</label>
+                                    <input aria-describedby="orderID" class="form-control"
+                                           id="orderID" name="orderID"
+                                           placeholder="OrderID"
+                                           style="pointer-events: none"
+                                           th:field="*{statusID}"
+                                           type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="desc">Trạng thái</label>
+                                    <select class="form-control" id="desc" onchange="show()"
+                                            th:field="*{description}">
+                                        <option th:each=" desc : ${desc}" th:id="'desc' + ${desc.descriptionID}"
+                                                th:text="${desc.descriptionName}"
+                                                th:value="${desc.descriptionID}"></option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="dateUpdate">Ngày cập nhật gần nhất</label> <input
+                                        class="form-control"
+                                        id="dateUpdate"
+                                        style="pointer-events: none"
+                                        type="text">
+                                </div>
+
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="notes">Ghi chú</label>
+                                    <input aria-describedby="noteshelpId"
+                                           class="form-control" id="notes" name="notes"
+                                           placeholder="notes"
+                                           th:field="*{notes}"
+                                           type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="statusName">Hình thức thanh toán</label>
+                                    <select class="form-control" id="statusName" style="pointer-events: none"
+                                            th:field="*{statusname}">
+                                        <option th:each="namestt : ${statusName}" th:id="'sttName'+ ${namestt.statusID}"
+                                                th:text="${namestt.statusName}"
+                                                th:value="${namestt.statusID}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="divReason" style="opacity: 0">
+                                    <label for="reason">Lý do hủy đơn</label>
+                                    <input class="form-control"
+                                           id="reason" name="reason"
+                                           placeholder="Không có"
+                                           th:field="*{reason}" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn_custom" id="updateProduct" onclick="updateForm()" type="button">
+                            Chỉnh Sửa
+                        </button>
+                        <button class="btn btn_custom" onclick="showOrder_detail()" type="button">Xem chi tiết hóa đơn
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</div>
+<input id="menu-toggle" type="checkbox">
+<div th:replace="admin/sidemenu :: div"></div>
+<div class="main-content">
+    <header>
+        <div class="header-content">
+            <label for="menu-toggle"> <span class="las la-bars"></span>
+            </label>
+
+            <div class="header-menu">
+
+
+                <div class="notify-icon" style="margin-right: 0">
+                    <span class="las la-envelope" onclick="showMessStatus()"></span> <span class="notify" th:text="${mss}" style="display: none"></span>
+                </div>
+
+
+                <div class="user">
+                    <div class="bg-img" style="background-image: url(static/images/1.jpeg)"></div>
+
+                    <span><a class="log" th:href="@{/logout}">Đăng xuất</a></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="page-header">
+            <h1>Trạng thái đơn hàng</h1>
+            <small th:text="${username}"></small>
+        </div>
+        <div class="page-content">
+
+            <div class="analytics">
+                <div id="AllOrder" style="display: none" th:class="${AllStatusByStaff}"></div>
+                <div class="card" id="T1" onclick="submit(this)">
+                    <div class="card-head">
+                        <h4 id="ordPro" th:text="${ordPro}"></h4>
+                        <span id="ordProSpan"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small> số lượng hóa đơn đang chờ xác nhận </small>
+                        <div class="card-indicator">
+                            <div class="indicator one" id="ordProstyle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" id="T4" onclick="submit(this)">
+                    <div class="card-head">
+                        <h4 id="OrderFalse" th:text="${OrderFalse}"></h4>
+                        <span id="OrderFalseSpan"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Số lượng đơn hàng bị hủy</small>
+                        <div class="card-indicator">
+                            <div class="indicator four" id="OrderFalseStyle"></div>
+                        </div>
+                    </div>
+                </div >
+
+                <div class="card" id="T5" onclick="submit(this)">
+                    <div class="card-head">
+                        <h4 id="StatusDone" th:text="${CancelOrder}"></h4>
+                        <span id="StatusDoneSpan"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Số lượng đơn hàng yêu cầu được hủy </small>
+                        <div class="card-indicator">
+                            <div class="indicator two" id="StatusDoneStyle"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" id="T23" onclick="submit(this)">
+                    <div class="card-head">
+                        <h4 id="statusOrderProcessing" th:text="${statusOrderProcessing}"></h4>
+                        <span id="statusOrderProcessingSpan"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Số lượng đơn hàng đang xử lý </small>
+                        <div class="card-indicator">
+                            <div class="indicator three" id="statusOrderProcessingStyle"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="records table-responsive">
+                <div>
+                    <table width="100%" style="min-height: 150px">
+                        <thead>
+                        <tr>
+                            <th><span class="las la-sort"></span> Mã hóa đơn</th>
+                            <th><span class="las la-sort"></span>Tên khách hàng</th>
+                            <th><span class="las la-sort"></span> Ngày tạo</th>
+                            <th><span class="las la-sort"></span>Tổng tiền</th>
+                            <th><span class="las la-sort"></span> Trạng thái</th>
+                            <th><span class="las la-sort"></span> Nhân viên phụ trách</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="tbl2">
+                         <h4 class="messtbl2" >Không có hóa đơn nào</h4>
+                        <tr onclick="updateStatus(this)" th:each="p: ${statuss}">
+                            <td th:text="${p.orders.orderID}"></td>
+                            <td th:text="${p.orders.user.userID} == 'default' ? ${p.orders.customer} : ${p.orders.user.username}"></td>
+                            <td th:text="${#dates.format(p.createDate, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${p.orders.price}"></td>
+                            <td th:class="${p.description.descriptionID}"
+                                th:text="${p.description.descriptionName}"></td>
+                            <td th:text="${p.staffID.staffID.username}"></td>
+                            <td style="display: none" th:text="${p.statusname.statusID}"></td>
+                            <td style="display: none" th:text="${p.reason}"></td>
+                            <td style="display: none" th:text="${p.notes}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                    <!-- Hiển thị các liên kết chuyển đến các trang khác nhau -->
+                    <!--                        <ul class="pagination" style="display: flex;align-items: center;justify-content: center; margin-left: 0">-->
+                    <!--                            <li class="page-item"-->
+                    <!--                                th:class="${currentPage == 1 ? 'disabled' : ''}"><a-->
+                    <!--                                    class="page-link" th:href="@{/admin/status(page=0,type=${type})}">First</a></li>-->
+                    <!--                            <li class="page-item"-->
+                    <!--                                th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">-->
+                    <!--                                <a class="page-link"-->
+                    <!--                                   th:href="@{/admin/status(page=${pageNumber - 1},type=${type})}"-->
+                    <!--                                   th:text="${pageNumber}"></a>-->
+                    <!--                            </li>-->
+                    <!--                            <li class="page-item"-->
+                    <!--                                th:class="${currentPage == totalPages ? 'disabled' : ''}">-->
+                    <!--                                <a class="page-link"-->
+                    <!--                                   th:href="@{/admin/status(page=${totalPages - 1},type=${type})}">Last</a>-->
+                    <!--                            </li>-->
+                    <!--                        </ul>-->
+                    <!--            !------------------------------------------------------------------------------------------------------------ -->
+
+                    <div id="pagination">
+                        <!--                            nếu trang hiện tại > 1 thì hiện nhỏ hơn thì ẩn-->
+                        <div
+                                th:if="${currentPage > 1 }">
+                            <a class="pagination"  th:href="@{/admin/status(page=${currentPage - 2},type=${type})}">Trang trước</a>
+                        </div>
+                        <div
+                                th:unless="${currentPage > 1}">
+                            <a class="pagination dislabled">Trang trước</a>
+                        </div>
+                        <!--                            trang 1-->
+                        <div>
+                            <a th:class="${currentPage == 1 } ? ${active} : pagination"
+                               th:href="@{/admin/status(page=0 ,type=${type})}"
+                               th:text="1"
+                            ></a>
+                            <!--                                trang hiện tại-->
+                        </div>
+                        <div th:if="${ 1 < currentPage and currentPage < totalPages}">
+                            <a th:class="${currentPage -1 } ? ${active} "
+                               th:text="${currentPage}"
+                            ></a>
+                        </div>
+
+                        <div>
+                            <a th:class="${currentPage} ?  pagination"
+                            >...</a>
+                        </div>
+                        <!--                            hiện active nêu đang ở trang cuối-->
+                        <div>
+                            <a th:class="${currentPage == totalPages } ? ${active} : pagination"
+                               th:href="@{/admin/status(page=${totalPages -1 },type=${type})}"
+                               th:text="${totalPages} "
+                            ></a>
+                        </div>
+
+                        <div
+                                th:if="${totalPages > currentPage}">
+                            <a th:class="${currentPage == totalPages} ? ${active} : pagination"
+                               th:href="@{/admin/status(page=${currentPage},type=${type})}"
+                            >Trang sau</a>
+                        </div>
+                        <!--                            điều kiện sai thì vô-->
+                        <!--                            cr hiện = 4 total = 6 -->
+                        <div th:unless="${totalPages > currentPage}">
+                            <a class="pagination dislabled">Trang sau</a>
+                        </div>
+
+                    </div>
+                    <!--            !----------------------------------------------------------------------------------------------------------- -->
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+</body>
+<script>
+    // const Add = document.querySelector("#Addrecord")
+    const handleclick = () => {
+        handle.classList.toggle("handle")
+    }
+    // Add.addEventListener("click", handleclick)
+    document.querySelector("#exit").addEventListener("click", () => {
+        // const handle = document.querySelector(".handle")
+        if (document.getElementsByClassName("bodyOrder").length === 0) {
+            document.querySelector("#tbl1").classList.add("bodyOrder")
+        } else {
+            handle.classList.remove("handle")
+        }
+    })
+
+    async function updateStatus(val) {
+        const $$ = document.querySelector.bind(document)
+        $$("#orderID").setAttribute("value", val.children[0].innerHTML)
+        $$("#notes").setAttribute("value", val.children[8].innerHTML)
+        $$("#desc").value = val.children[4].getAttribute("class")
+        $$("#statusName").value = val.children[6].innerHTML
+        parseInt(val.children[4].getAttribute("class")) === 4 ? $$("#divReason").setAttribute("style", "opacity: 1") : $$("#divReason").setAttribute("style", "opacity: 0")
+        val.children[7].innerHTML !== 'Không có' && $$("#reason").setAttribute("value", val.children[7].innerHTML)
+        $$("#dateUpdate").setAttribute("value", val.children[2].innerHTML)
+        await handleclick();
+        if ($$("#desc").value === '5') {
+            $$("#desc").setAttribute("style", " pointer-events: none")
+            $$("#updateProduct").setAttribute("style", "display:none")
+        } else {
+            $$("#desc").removeAttribute("style")
+            $$("#updateProduct").removeAttribute("style")
+        }
+    }
+
+    function updateForm() {
+        console.log("alo")
+        $('#form').prop('action', '/admin/status/update');
+        $("#form").submit();
+    }
+
+    function hanlderemoveStatus() {
+        document.querySelector("#status").removeAttribute("class");
+    }
+
+    window.addEventListener("load", () => {
+        //4s thì ẩn thông báo và hiện lên thư
+        setTimeout(() => {
+            document.querySelector("#status").remove("class")
+            document.querySelector(".notify").removeAttribute("style")
+        }, 4000);
+
+        //tất cả order
+        let AllOrders = document.querySelector("#AllOrder").getAttribute("class")
+        // đang chờ xác nhận---------------------------------------
+        let Processing = document.querySelector("#ordPro").innerHTML.slice(0,document.querySelector("#ordPro").innerHTML.indexOf(" "))
+        //lấy ra %
+        let SpanProcessing
+        Processing === '0' ? SpanProcessing = 0 : SpanProcessing = (Processing / AllOrders * 100).toFixed(2)
+        //css cho thanh bar và span
+        document.querySelector("#ordProstyle").setAttribute("style", `width:${SpanProcessing}%`)
+        document.querySelector("#ordProSpan").innerHTML = SpanProcessing + "%"
+        // đã bị hủy---------------------------------------
+        let OrderFalse = document.querySelector("#OrderFalse").innerHTML.slice(0,document.querySelector("#OrderFalse").innerHTML.indexOf(" "))
+        //lấy ra %
+        let SpanOrderFalse
+        OrderFalse == 0 ? SpanOrderFalse = 0 : SpanOrderFalse = (OrderFalse / AllOrders * 100).toFixed(2)
+        //css cho thanh bar và span
+        document.querySelector("#OrderFalseStyle").setAttribute("style", `width:${SpanOrderFalse}%`)
+        document.querySelector("#OrderFalseSpan").innerHTML = SpanOrderFalse + "%"
+        // Đã hoàn thành-----------------------------------
+        let StatusDone = document.querySelector("#StatusDone").innerHTML.slice(0,document.querySelector("#StatusDone").innerHTML.indexOf(" "))
+        //lấy ra %
+        let SpanStatusDone
+        StatusDone == 0 ? SpanStatusDone = 0 :SpanStatusDone = (StatusDone / AllOrders * 100).toFixed(2)
+        //css cho thanh bar và span
+        document.querySelector("#StatusDoneStyle").setAttribute("style", `width:${SpanStatusDone}%`)
+        document.querySelector("#StatusDoneSpan").innerHTML = SpanStatusDone + "%"
+        // Đang xử lý---------------------------------------
+        let statusOrderProcessing = document.querySelector("#statusOrderProcessing").innerHTML.slice(0,document.querySelector("#statusOrderProcessing").innerHTML.indexOf(" "))
+        //lấy ra %
+        let SpanstatusOrderProcessing = (statusOrderProcessing / AllOrders * 100).toFixed(2)
+        let tbl2 = document.querySelector("#tbl2")
+        let mess = document.querySelector(".messtbl2")
+            tbl2.children.length !== 0 ? mess.setAttribute("style","display:none"): mess.removeAttribute("style")
+        //css cho thanh bar và span
+        document.querySelector("#statusOrderProcessingStyle").setAttribute("style", `width:${SpanstatusOrderProcessing}%`)
+        document.querySelector("#statusOrderProcessingSpan").innerHTML = SpanstatusOrderProcessing + "%"
+    })
+
+    function show() {
+        document.querySelector("#desc").value == 4 ? document.querySelector("#divReason").setAttribute("style", "opacity:1") : document.querySelector("#divReason").setAttribute("style", "opacity:0")
+    }
+
+    async function showOrder_detail() {
+        //section left 25vw 850 tbl1 width 810
+        let orderId = document.querySelector("#orderID").value
+        document.querySelector("#tbl1").classList.remove("bodyOrder")
+        const req = await fetch(`/api/orderDetails/${orderId}`)
+        const data = await req.json();
+        let bodyTable = document.querySelector("#bodyOrder")
+        bodyTable.innerHTML = ""
+        data.forEach(item => {
+            console.log(item)
+            console.log(item.colorName)
+            bodyTable.innerHTML += `
+                   <tr>
+                    <td>${item.orderDetailID}</td>
+                    <td>${item.name}</td>
+                    <td>${item.colorName}</td>
+                    <td>${item.price}</td>
+                    <td>${item.quantity}</td>
+                    </tr>
+                   `
+        })
+
+    }
+
+    function submit(val) {
+        let id = val.getAttribute("id").trim()
+        console.log(id)
+        location.href = `http://localhost:8080/admin/status?type=${id}`
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</html>

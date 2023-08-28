@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>MultiShop - Online Shop Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{checkout/img/favicon.ico}">
+
+    <!-- Google Web Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+            rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+            rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link rel="stylesheet"
+          th:href="@{/checkout/lib/animate/animate.min.css}">
+    <link rel="stylesheet"
+          th:href="@{/checkout/lib/owlcarousel/assets/owl.carousel.min.css}">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link th:href="@{/checkout/css/style.css}" rel="stylesheet">
+</head>
+
+<body th:id="${done}">
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30" style="justify-content: space-between;">
+                <span class="breadcrumb-item active">Checkout</span>
+                <a th:href="@{/home}">Trang chủ</a>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+
+<!-- Checkout Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-lg-6">
+            <h5 class="section-title position-relative text-uppercase mb-3">
+                <span class="bg-secondary pr-3">Thông tin</span>
+            </h5>
+            <div class="bg-light p-30 mb-5">
+                <div class="row">
+                    <div class="col-md-9 form-group">
+                        <label>Họ và tên</label> <input class="form-control" placeholder=""
+                                                        id="customer"
+                                                        style="color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb;"
+                                                        th:value="${session.currentUser} != null ? ${session.currentUser.username} : '' "
+                                                        type="text">
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <label>Địa chỉ</label> <input class="form-control" id="address"
+                                                      placeholder="Address"
+                                                      th:value="${session.currentUser} != null ?${session.currentUser.address} : '' "
+                                                      type="text">
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <label>Email</label> <input class="form-control" id="email"
+                                                    placeholder="example@email.com"
+                                                    th:value="${session.currentUser} != null ?${session.currentUser.email} : '' "
+                                                    type="text">
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <label>Số điện thoại</label> <input class="form-control" id="phone_number"
+                                                            placeholder="+123 456 789"
+                                                            th:value="${session.currentUser} != null ?${session.currentUser.phone} : '' "
+                                                            type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <h5 class="section-title position-relative text-uppercase mb-3">
+                <span class="bg-secondary pr-3">Tổng đơn hàng</span>
+            </h5>
+            <div class="bg-light p-30 mb-5">
+                <div class="border-bottom">
+                    <h6 class="mb-3">Sản phẩm</h6>
+                    <div class="d-flex justify-content-between nameProductOrder"
+                         th:data-product-id="${detail.value.productID}"
+                         th:each="detail,index : ${session.currentCart.details}">
+                        <p class="col-lg-5" id="nameProduct"
+                           style='display: none' th:text="${detail.value.nameProduct}"></p>
+                        <p class="col-lg-5" id="valNameProduct"></p>
+                        <p class="col">Màu:</p>
+                        <label class="color-span"
+                               th:style="'background-color: ' + ${detail.value.colorhex}"></label>
+                        <p class="col-lg-2">
+                            SL : <a th:text="${detail.value.quantity}"></a>
+                        </p>
+                        <p class="col-lg-2" name="price"
+                           th:text="${#numbers.formatDecimal(detail.value.price, 0, 'COMMA', 0, 'POINT') + 'VND'} "></p>
+                    </div>
+                </div>
+                <!--        <div class="border-bottom pt-3 pb-2">-->
+                <!--          <div class="d-flex justify-content-between mb-3">-->
+                <!--            <h6>Subtotal</h6>-->
+                <!--            <h6>$150</h6>-->
+                <!--          </div>-->
+                <!--          <div class="d-flex justify-content-between">-->
+                <!--            <h6 class="font-weight-medium">Shipping</h6>-->
+                <!--            <h6 class="font-weight-medium">$10</h6>-->
+                <!--          </div>-->
+                <!--        </div>-->
+                <div class="pt-2">
+                    <div class="d-flex justify-content-between mt-2">
+                        <h5>Tổng tiền</h5>
+                        <h5
+                                th:text="${#numbers.formatDecimal(session.currentCart.totalPrice, 0, 'COMMA', 0, 'POINT') + 'VND'} "></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-5">
+                <h5 class="section-title position-relative text-uppercase mb-3">
+                    <span class="bg-secondary pr-3">Thanh toán</span>
+                </h5>
+                <form class="bg-light p-30" id="formpay" method="post">
+                    <input name="price" style="display: none"
+                           th:value="${session.currentCart.totalPrice}"/>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input" id="pay" name="payment"
+                                   type="radio"> <label class="custom-control-label" for="pay">Thanh
+                            toán qua PayPal</label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group mb-4">
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input" id="order" name="payment"
+                                   type="radio"> <label class="custom-control-label"
+                                                        for="order">Thanh toán qua COD</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-block btn-primary font-weight-bold py-3"
+                            th:attr="onclick='checkout()'" type="button">Đặt hàng
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{checkout/lib/easing/easing.min.js}"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Contact Javascript File -->
+<script th:src="@{checkout/mail/jqBootstrapValidation.min.js}"></script>
+<script th:src="@{checkout/mail/contact.js}"></script>
+
+<!-- Template Javascript -->
+<script th:src="@{checkout/js/main.js}"></script>
+<script>
+    window.addEventListener("load", () => {
+        let a = document.getElementsByClassName("nameProductOrder")
+        for (index = 0; index < a.length; index++) {
+            let val = a[index].children[0].innerHTML
+            a[index].children[1].innerHTML = val.replace(val.slice(val.indexOf("(")), "")
+        }
+    })
+
+    function checkout() {
+        if (document.querySelector('input[name="payment"]:checked') == undefined) {
+            alert('Vui lòng chọn phương thức thanh toán')
+        } else {
+            if (document.querySelector('input[name="payment"]:checked').getAttribute("id") == "order") {
+                var endpoint = '/api/cart/checkout?address=' + $('#address').val() + '&phone=' + $('#phone_number').val() + '&email=' + $('#email').val() + '&payment=order' + '&customer=' + $('#customer').val()
+                $.ajax({
+                    url: endpoint,
+                    type: 'GET',
+                    statusCode: {
+                        200: handle200,
+                        400: handle400,
+                        401: handle401,
+                        404: handle404
+                    }
+                });
+
+                function handle200() {
+                    alert('Đặt hàng thành công');
+                    window.location.href = '/home';
+                }
+
+                function handle400() {
+                    alert('Đặt hàng thất bại , Xin thử lại');
+                }
+                function handle401(){
+                    alert("Sai định dạng gmail");
+                }
+                function handle404(){
+                    alert("Xin hãy điền đầy đủ thông tin");
+                }
+            } else {
+                var id = document.querySelector('input[name="payment"]:checked').getAttribute('id');
+                var address = $('#address').val();
+                var phone = $('#phone_number').val();
+                var email = $('#email').val();
+                var customer = $('#customer').val();
+                let order = "paypal"
+                localStorage.setItem("val", JSON.stringify([address, phone, email, order, customer]))
+                $('#formpay').prop('action', `/cart/${id}`)
+                $("#formpay").submit()
+
+            }
+        }
+    }
+
+    window.addEventListener("load", () => {
+        if (document.querySelector("#done") != null) {
+            var val = JSON.parse(localStorage.getItem("val"))
+            var endpoint = '/api/cart/checkout?address=' + val[0] + '&phone=' + val[1] + '&email=' + val[2] + '&payment=' + val[3] + '&customer=' + val[4];
+            localStorage.removeItem("val")
+            $.ajax({
+                url: endpoint,
+                type: 'GET',
+                statusCode: {
+                    200: handle200,
+                    400: handle400,
+                    401: handle401,
+                    404: handle404
+                }
+            });
+
+            function handle200() {
+                alert('Đặt hàng thành công');
+                window.location.href = '/home';
+            }
+
+            function handle400() {
+                alert('Đặt hàng thất bại , Xin thử lại');
+            }
+            function handle401(){
+                alert("Sai định dạng gmail");
+            }
+            function handle404(){
+                alert("Xin hãy điền đầy đủ thông tin");
+            }
+        } else {
+            localStorage.getItem("val") !== null &&  localStorage.removeItem("val")
+        }
+    })
+
+</script>
+</body>
+
+</html>

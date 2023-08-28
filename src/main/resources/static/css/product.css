@@ -1,0 +1,441 @@
+
+/* handle */
+.handle2 {
+    scale: 1 !important;
+    transition: .8s ease-in-out;
+}
+.handle4{
+    scale: 1 !important;
+    transition: .8s ease-in-out;
+}
+#handle4{
+    scale: 0;
+    transition: .8s ease-in-out;
+}
+#handle2 {
+    scale: 0;
+    transition: .8s ease-in-out;
+}
+
+.exit{
+    scale: 1.1;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+    margin-left: 54vw;
+}
+.analytics .card {
+    position: static;
+}
+
+.card-footer .btn {
+    border: 1px solid #191970;
+    margin: 0 10px;
+}
+
+.card-footer .btn:hover {
+    color: #fff;
+    background-color: #191970;
+    scale: 1.1;
+    transition: .5s;
+}
+
+.card-footer {
+    display: flex;
+    background: transparent;
+    transition: .5s;
+}
+.card-footer .btn {
+    display: none;
+}
+#updateForm{
+    display: none;
+}
+#handle4 > .row form .card {
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    border: 2px solid #191970;
+    border-radius: 15px;
+}
+#handle > .row form .card {
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    border: 2px solid #191970;
+    border-radius: 15px;
+}
+#handle5 {
+    scale: 0;
+    transition: .8s ease-in-out;
+}
+
+#handle5 > .row form .card {
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    border: 2px solid #191970;
+    border-radius: 15px;
+}
+.handle5{
+    scale: 1 !important;
+    position: absolute;
+    top: 245px;
+
+    width: 100%;
+}
+td {
+    padding-left: 15px !important;
+}
+
+.side-menu ul li:hover span {
+    color: #fff !important;
+}
+
+.side-menu ul li:hover small {
+    color: #fff !important;
+}
+.product-form {
+    position: absolute;
+    left: 25vw;
+    top: 10vh;
+    width: 60%;
+    height: 30%;
+}
+.record-header table thead th{
+    text-align: center;
+}
+.done_delete{
+    right: 20px;
+    position: absolute;
+    margin-top: 6vh;
+    z-index: 1;
+    display: initial !important;
+}
+#status{
+    display: none;
+}
+.toast-body{
+    background-color: #fff;
+}
+.table-product{
+    min-width: 86vw;
+    height: 612px;
+}
+.table1{
+    /*transform: translateY(-950px) ;*/
+    transition: .5s ease;
+}
+.table2{
+    /*transform: translateY(176vw) ;*/
+    display: none;
+    transition: .5s ease;
+}
+.analytics .card {
+    cursor: pointer;
+}
+.tabledefault{
+    transition: .5s ease;
+}
+.handleUpdate{
+    display : block !important;
+}
+#colorList{
+    position: relative;
+}
+.custom-opt:hover:after{
+    content: "   ";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--data-color) ;
+    position: absolute;
+    right: 12px;
+    margin-top: 2px;
+}
+.formProductByCategory{
+    display: block;
+    left: 25%;
+}
+.formProductByCategory .exit{
+    margin-left: 25vw;
+}
+label{
+    cursor: pointer;
+}
+#handle3{
+    scale: 0;
+    transition: .4s ease-in-out;
+}
+.handle3{
+    scale: 1 !important;
+    transition: .4s ease-in-out;
+}
+#showFormFilter{
+    margin-left: 25px;
+}
+.showFormFilter{
+    transition : .4s ease
+}
+#handle3 .product-form{
+    top : 6vh;
+}
+#handle3 .card{
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    border-radius:15px ;
+}
+#productCate {
+    border: 1px solid #191970;
+    margin: 0 10px;
+    float: right;
+}
+#productCate:hover{
+    color: #fff;
+    background-color: #191970;
+    scale: 1.1;
+    transition: .5s;
+}
+#submitImgAndColor{
+    width: 880px;
+    height: 273px;
+}
+#submitImgAndColor .card {
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    border-radius:15px ;
+    width: 880px;
+    height: 345px;
+}
+#colorList::-webkit-scrollbar {
+    display: none; /* cho Chrome, Safari, and Opera */
+}
+.updateImgProduct{
+    display: block;
+}
+#updateButtonProduct{
+    display: none;
+}
+.updateImgProduct{
+    border: 1px solid #191970;
+    margin: 0 10px;
+    display: block !important;
+}
+#pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#pagination2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pagination{
+    border: 1px solid #191970;
+    margin: 10px;
+    padding: 5px 15px;
+    color: #191970;
+}
+.pagination:hover{
+    border: none;
+    color : #fff;
+    background: #191970;
+    scale: 1.1;
+}
+#pagination .active{
+    border: none;
+    color: #fff;
+    background: #191970;
+    scale: 1.1;
+    margin: 10px;
+    padding: 9px 16px;
+    border-radius: 5px;
+}
+#pagination2 .active{
+    border: none;
+    color: #fff;
+    background: #191970;
+    scale: 1.1;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 9px 16px;
+}
+.page-content{
+    max-height: 160vh;
+}
+#tb2{
+    height: 133vh;
+    overflow: hidden;
+}
+#tb1{
+    height: 133vh;
+    overflow: hidden;
+}
+.disabled{
+    cursor: not-allowed;
+    pointer-events: none;
+    border: 1px solid #191970;
+    opacity: .6;
+    margin: 10px;
+    padding: 9px 15px;
+    color: #191970;
+    border-radius: 4px;
+}
+#updateButtonProductColor{
+    display: none;
+}
+#Addrecord3{
+    margin-left: 10px;
+}
+#colorList {
+    position: absolute;
+    max-width: 237px;
+}
+
+.default{
+    overflow: scroll;
+    display: none;
+    transition: .5s ease-in-out;
+}
+.default::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+}
+.showOrderDetailTable{
+    margin-top: 40px;
+}
+.showOrderDetailTable tbody td:last-child{
+    padding-right: 0 !important;
+}
+.activeTable thead th{
+    width: auto !important;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+.activeTable::after{
+    content: "";
+    position: absolute;
+    top: -23px;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #191970 transparent;
+}
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+#pagination{
+    padding-top: 80px;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+.table thead th {
+    width: 167px !important;
+}
+.tableproductcolor{
+    top: 420px;
+}
+.table-product thead th {
+    width: 167px !important;
+}
+.table-product tbody td {
+    width: auto !important;
+}
+tbody tr:hover{
+    cursor: pointer;
+    background-color: #f1f4f9;
+}
+table{
+    width: 100%;
+}
+.activeTable{
+    position: absolute;
+    height: 50vh;
+    width: 55vw;
+    text-align: center;
+    display: inline;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    scale: 1;
+    transition: .5s ease;
+    border: 2px solid #191970;
+    left: 18%;
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+    margin-top: 10vh;
+}
+.exitFormOrderDetail{
+    float: right;
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    right: 12px;
+    padding-top: 4px;
+    font-size: 30px;
+    color: #191970;
+    border: 2px solid #191970;
+    transition: .3s ease;
+    top: 10px;
+}
+.exitFormOrderDetail:hover{
+    background-color: #191970;
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    scale: 1.1;
+    transition: .3s ease;
+}
+.btn_custom{
+    border: 1px solid #191970 !important;
+    color:#212529 !important;
+    text-align: center !important;
+    font-weight: 300 !important;
+    background-color: #fff !important;
+}
+.btn_custom:hover{
+    color: #fff !important;
+    background-color: #191970 !important;
+    scale: 1.1 !important;
+    transition: .5s !important;
+
+}
+.input_search{
+    height: 36px;
+    margin-right: 5px;
+    border: 2px solid #191970;
+    border-radius: 7px;
+    width: 230px;
+    padding-left: 8px;
+}
+.add{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#showFormFilter{
+    display: none;
+}

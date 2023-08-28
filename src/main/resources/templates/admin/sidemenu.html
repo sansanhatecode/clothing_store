@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="sidebar">
+		<div class="side-header">
+			<h3>
+				<a th:href="@{/home}" style="color: white;">Quản lý</a>
+			</h3>
+		</div>
+		<div class="side-content">
+			<div class="profile">
+				<div class="profile-img bg-img"
+					style="background-image: url(/images/3.jpeg)"></div>
+<!--				<h4 th:text="${session.currentUser.username}"></h4>-->
+<!--				<small-->
+<!--					th:if="${#authorization.expression('hasAuthority(''admin'')')}">Admin</small>-->
+<!--				<small-->
+<!--					th:if="${#authorization.expression('hasAuthority(''staff'')')}">Staff</small>-->
+			</div>
+
+			<div class="side-menu">
+				<ul>
+					<li><a th:href="@{/home}" class="active"> <span
+							id="admin" class="las la-home"></span> <small>Home</small>
+					</a></li>
+					<li><a th:href="@{/admin/user}"> <span id="userIcon"
+							class="las la-user-alt"></span> <small>Người dùng</small>
+					</a></li>
+					<li th:if="${#authorization.expression('hasAuthority(''admin'')')}"><a
+						th:href="@{/admin/authorizing}"> <span
+							class="fa-sharp fa-solid fa-users"></span> <small>Phân quyền</small>
+					</a></li>
+					<li><a th:href="@{/admin/product}"> <span id="productIcon"
+							class="fa-solid fa-shirt" style="color: #899dc1;"></span> <small>Sản phẩm</small>
+					</a></li>
+					<li><a th:href="@{/admin/order}"> <span
+							class="las la-shopping-cart oderIcon"></span> <small class="oderIcon">Đơn hàng</small>
+					</a></li>
+					<li><a th:href="@{/admin/status}"> <span
+							class="las la-tasks"></span> <small>Trạng thái đơn hàng</small></a></li>
+					<li th:if="${#authorization.expression('hasAuthority(''admin'')')}"><a th:href="@{/admin/TotalStatisticsByDay/0/0}"> <span id="tasksIcon" class="las la-tasks"></span>
+							<small>Thống kê doanh thu</small>
+					</a></li>
+					<li th:if="${#authorization.expression('hasAuthority(''admin'')')}"><a th:href="@{/admin/ProductStatisticsByDay/0/0/0}"> <span id="tasksIcon" class="las la-tasks"></span>
+						<small>Thông kê sản phẩm</small>
+					</a></li>
+
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

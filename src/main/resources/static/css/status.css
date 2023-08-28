@@ -1,0 +1,125 @@
+.done_delete{
+    right: 20px;
+    position: absolute;
+    margin-top: 3vh;
+    z-index: 1;
+    display: initial !important;
+}
+.card-head span{
+    font-size: 2rem !important;
+}
+#status{
+    display: none;
+}
+.toast-body{
+    background-color: #fff;
+}
+#handle > .row form .card {
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    border: 2px solid #191970;
+    border-radius: 15px;
+}
+.card{
+    position: unset;
+}
+tr{
+    cursor: pointer;
+}
+#body_mess{
+    width: 100%;
+    animation-name: example;
+    animation-duration: 4.1s;
+}
+@keyframes example {
+    from {width: 100%;}
+    to {width: 0}
+}
+
+.btn_custom{
+    border: 1px solid #191970 !important;
+    color:#212529 !important;
+    text-align: center !important;
+    font-weight: 300 !important;
+    background-color: #fff !important;
+    margin-left: 10px;
+}
+.btn_custom:hover{
+    color: #fff !important;
+    background-color: #191970 !important;
+    scale: 1.01 !important;
+    transition: .5s !important;
+
+}
+.input_search{
+    height: 36px;
+    margin-right: 5px;
+    border: 2px solid #191970;
+    border-radius: 7px;
+    width: 230px;
+    padding-left: 8px;
+}
+.bodyOrder{
+    display: none;
+}
+#T1:hover, #T4:hover, #T23:hover, #T5:hover{
+    border: 1px solid #191970;
+    scale: 1.05;
+    transition: .2s;
+    cursor: pointer;
+}
+.messtbl2{
+    position: absolute; margin-top:5% ;margin-left: 35%;
+}
+
+#pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination{
+    border: 1px solid #191970;
+    margin: 10px;
+    padding: 5px 15px;
+    color: #191970;
+}
+.pagination:hover{
+    border: none;
+    color : #fff;
+    background: #191970;
+    scale: 1.1;
+}
+#pagination .active{
+    border: none;
+    color: #fff;
+    background: #191970;
+    margin: 10px;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+#pagination{
+    padding-top: 80px;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+.pagination{
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+}
+.dislabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    border: 1px solid #191970;
+    margin: 10px;
+    padding: 5px 15px;
+    color: #191970;
+    border-radius: 4px;
+}
+.card .card-head span {
+    color: #212529 !important;
+}

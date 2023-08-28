@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Quần áo</title>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-2">
+                <div class="logo"><a th:href="@{/}"><img alt="FlatShop" src="/images/logo.png"></a></div>
+            </div>
+            <div class="col-md-10 col-sm-10">
+                <div class="header_top">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <!--                            <ul class="option_nav">-->
+                            <!--                                <li class="dorpdown">-->
+                            <!--                                    <a href="#">Eng</a>-->
+                            <!--                                    <ul class="subnav">-->
+                            <!--                                        <li><a href="#">Eng</a></li>-->
+                            <!--                                        <li><a href="#">Vns</a></li>-->
+                            <!--                                        <li><a href="#">Fer</a></li>-->
+                            <!--                                        <li><a href="#">Gem</a></li>-->
+                            <!--                                    </ul>-->
+                            <!--                                </li>-->
+                            <!--                                <li class="dorpdown">-->
+                            <!--                                    <a href="#">USD</a>-->
+                            <!--                                    <ul class="subnav">-->
+                            <!--                                        <li><a href="#">USD</a></li>-->
+                            <!--                                        <li><a href="#">UKD</a></li>-->
+                            <!--                                        <li><a href="#">FER</a></li>-->
+                            <!--                                    </ul>-->
+                            <!--                                </li>-->
+                            <!--                            </ul>-->
+                        </div>
+                        <div class="col-md-6">
+                            <!--                            <ul class="topmenu">-->
+                            <!--                                <li><a href="#">About Us</a></li>-->
+                            <!--                                <li><a href="#">News</a></li>-->
+                            <!--                                <li><a href="#">Service</a></li>-->
+                            <!--                                <li><a href="#">Recruiment</a></li>-->
+                            <!--                                <li><a href="#">Media</a></li>-->
+                            <!--                                <li><a href="#">Support</a></li>-->
+                            <!--                            </ul>-->
+                        </div>
+                        <div style="float: right">
+                            <ul class="usermenu">
+                                <li th:if="${session.currentUser == null}"><a class="log" th:href="@{/login}">Đăng
+                                    nhập</a>
+                                </li>
+                                <li th:if="${session.currentUser != null}"><a class="log"
+                                                                              th:href="@{/logout}">Đăng xuất</a></li>
+                                <li th:if="${session.currentUser == null}"><a class="log" th:href="@{/register}">Đăng
+                                    ký</a>
+                                </li>
+                                <li th:if="${session.currentUser != null}"><a class="log" th:href="@{/login}"><span
+                                        th:text="${session.currentUser.username}"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="header_bottom">
+                    <ul class="option">
+                        <li class="search" id="search" onclick="searchProducts()">
+                            <form th:action="@{/productSearch}">
+                                <input class="search-submit" type="button" value="">
+                                <input id="searchProducts" onblur="handleRemovesearch()" class="search-input" name="keyword"
+                                       placeholder="Nhập tìm kiếm của bạn..." required type="text"/>
+                            </form>
+                            <ul id="ulSearch" class="searchForm1">
+
+                            </ul>
+                        </li>
+                        <li class="option-cart">
+                            <a class="cart-icon" th:href="@{/cart}">Giỏ hàng <span class="cart_no"
+                                                                                   id="headerToTalQuantity"
+                                                                                   th:text="${session.currentCart.totalQuantity}"></span></a>
+                        </li>
+                    </ul>
+                    <div class="navbar-header">
+                        <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse"
+                                type="button"><span class="sr-only">Toggle navigation</span><span
+                                class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active dropdown">
+                                <a th:href="@{/home}">Trang chủ</a>
+                            </li>
+                            <li><a th:href="@{/productgird}">Sản phẩm</a></li>
+                            <li><a th:href="@{/productlist}">List sản phẩm</a></li>
+
+                            <li><a th:href="@{/contact}">Liên hệ</a></li>
+                            <li th:if="${session.currentUser != null}">
+                                <a th:href="@{'/cart/check/' + ${session.currentUser.userID}}"
+                                   th:id="${session.currentUser.userID}">Đơn hàng của bạn</a></li>
+                            <li th:if="${#authorization.expression('hasAuthority(''admin'')')}"><a th:href="@{/admin}"> <span id="tasksIcon" class="las la-tasks"></span>
+                                <small>Quản lý</small>
+                            </a></li>
+                            <li th:if="${#authorization.expression('hasAuthority(''staff'')')}"><a th:href="@{/admin}"> <span  class="las la-tasks"></span>
+                                <small>Nhân viên</small>
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>

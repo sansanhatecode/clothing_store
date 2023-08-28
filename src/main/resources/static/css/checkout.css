@@ -1,0 +1,56 @@
+
+/*.shop-table thead tr th:first-child{*/
+/*width: 5%;*/
+/*}*/
+/*.shop-table thead tr th:nth-child(2){*/
+/*    width: 15%;*/
+/*}*/
+/*.shop-table thead tr th:nth-child(4){*/
+/*    width: 7%;*/
+/*}*/
+/*.shop-table thead tr th:nth-child(5){*/
+/*    width: 7%;*/
+/*}*/
+/*.shop-table tbody tr td:first-child {*/
+/*    width: 5%;*/
+/*}*/
+/*.shop-table tbody tr td:nth-child(2){*/
+/*    width: 15%;*/
+/*}*/
+/*.shop-table tbody tr td:nth-child(4){*/
+/*    width: 7%;*/
+/*}*/
+/*.shop-table tbody tr td:nth-child(5){*/
+/*    width: 7%;*/
+/*}*/
+#cartItems{
+   width: 100%;
+}
+.shop-table tr {
+
+    display: inline-flex;
+}
+.shop-table th:nth-child(2) {
+width: 30%;
+}
+.shop-table td:nth-child(4){
+    width: 20%;
+}
+.shop-table tbody tr td:last-child {
+width: 20%;
+}
+.shop-table th:first-child, .shop-table td:first-child {
+width: 8%;
+}
+.shop-table th:nth-child(2),.shop-table td:nth-child(2) {
+    width: 30%;
+}
+.shop-table td:nth-child(4), .shop-table th:nth-child(4){
+    width: 20%;
+}
+.shop-table tbody tr td:last-child,.shop-table th:last-child {
+    width: 20%;
+}
+.shop-table th:first-child, .shop-table td:first-child {
+    width: 8%;
+}

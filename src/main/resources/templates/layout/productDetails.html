@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" th:href="@{images/favicon.png}">
+	<title>Welcome to FlatShop</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+	<link
+			href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100'
+			rel='stylesheet' type='text/css'>
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/flexslider.css}" type="text/css"
+		  media="screen"/>
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/home.css}" type="text/css"/>
+	<link th:href="@{/css/productdetail.css}" rel="stylesheet"
+		  type="text/css">
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
+	</script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js">
+
+
+	</script>
+	<![endif]-->
+</head>
+<body>
+<div class="wrapper">
+	<!-- Th:replace sẽ thay thế đoạn mã này bằng header.html trong layout.html -->
+	<div th:replace="layout/header :: header"></div>
+	<div class="clearfix"></div>
+	<div class="container_fullwidth">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9">
+					<div class="products-details">
+						<div class="preview_image">
+							<div class="preview-small">
+								<img id="product_thumbnail"
+									 th:src="@{'/images/product/'+ ${product.category.categoryID}}"
+									 data-zoom-image="images/products/Large/products-01.jpg" alt="">
+							</div>
+							<div class="thum-image">
+								<ul id="gallery_01" class="prev-thum">
+
+								</ul>
+								<a class="control-left" id="thum-prev"
+								   href="javascript:void(0);"> <i class="fa fa-chevron-left">
+								</i>
+								</a> <a class="control-right" id="thum-next"
+										href="javascript:void(0);"> <i class="fa fa-chevron-right">
+							</i>
+							</a>
+							</div>
+						</div>
+						<div class="products-description">
+							<h3 class="name" th:text="${product.name}"></h3>
+							<!-- <p>
+                                <img alt="" th:src="@{/images/star.png}">
+                                                   <a class="review_num" href="#">
+                                                     02 Review(s)
+                                                   </a>
+                            </p> -->
+							<h3 th:name="${product.category.categoryID}">Mô tả</h3>
+							<input id='categoryID' th:value="${product.category.categoryID}" style="display: none;"/>
+							<br>
+							<p th:text="${product.description}"></p>
+							<h3>Màu sắc</h3>
+							<div class="pd-color-choose">
+								<div th:each="colorItem: ${product_color}" class="cc-item">
+									<input name='12' th:value="${colorItem.colorID}"/>
+									<input class="color" type="radio" name="color"
+										   th:id="${colorItem.colorID}" th:value="${colorItem.colorID}"
+										   th:data-productid="${product.productID}"
+										   th:attr="onchange='changeColor(\'' + ${colorItem.colorID} + '\')'"/>
+									<label th:for="${colorItem.colorID}"
+										   th:data-color-hex="${colorItem.colorhex}"
+										   th:style="'background: ' + ${colorItem.colorhex}"></label>
+
+								</div>
+							</div>
+							<hr class="border">
+							<div class="price">
+								Giá : <span class="new_price"
+											th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+									</span>
+								<!--                    <span class="old_price">-->
+								<!--                      450.00-->
+								<!--                      <sup>-->
+								<!--                        $-->
+								<!--                      </sup>-->
+								<!--                    </span>-->
+							</div>
+							<hr class="border">
+							<div class="wided">
+								<!--									<div class="qty">-->
+								<!--										Qty &nbsp;&nbsp;: <select>-->
+								<!--											<option>1</option>-->
+								<!--											<option>2</option>-->
+								<!--											<option>3</option>-->
+								<!--											<option>4</option>-->
+								<!--											<option>5</option>-->
+								<!--										</select>-->
+								<!--									</div>-->
+								<div class="button_group">
+									<button class="button" id="addcard"
+											th:attr="onclick='addToCart(\'' +${product.productID}+ '\')'">Thêm vào giỏ
+										hàng
+									</button>
+									<button class="button compare">
+										<i class="fa fa-exchange"> </i>
+									</button>
+									<button class="button favorite">
+										<i class="fa fa-heart-o"> </i>
+									</button>
+									<button class="button favorite">
+										<i class="fa fa-envelope-o"> </i>
+									</button>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+							<hr class="border">
+							<img src="images/share.png" alt="" class="pull-right">
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="tab-box">
+						<div id="tabnav">
+							<ul>
+								<li><a href="#Descraption"> DESCRIPTION </a></li>
+								<!-- <li><a href="#Reviews"> REVIEW </a></li>
+                                <li><a href="#tags"> PRODUCT TAGS </a></li> -->
+							</ul>
+						</div>
+						<div class="tab-content-wrap">
+							<div class="tab-content" id="Descraption"
+								 th:text="${product.description}"></div>
+							<div class="tab-content" id="Reviews">
+								<form>
+									<table>
+										<thead>
+										<tr>
+											<th>&nbsp;</th>
+											<th>1 star</th>
+											<th>2 stars</th>
+											<th>3 stars</th>
+											<th>4 stars</th>
+											<th>5 stars</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<td>Quality</td>
+											<td><input type="radio" name="quality" value="Blue"/>
+											</td>
+											<td><input type="radio" name="quality" value="">
+											</td>
+											<td><input type="radio" name="quality" value="">
+											</td>
+											<td><input type="radio" name="quality" value="">
+											</td>
+											<td><input type="radio" name="quality" value="">
+											</td>
+										</tr>
+										<tr>
+											<td>Price</td>
+											<td><input type="radio" name="price" value="">
+											</td>
+											<td><input type="radio" name="price" value="">
+											</td>
+											<td><input type="radio" name="price" value="">
+											</td>
+											<td><input type="radio" name="price" value="">
+											</td>
+											<td><input type="radio" name="price" value="">
+											</td>
+										</tr>
+										<tr>
+											<td>Value</td>
+											<td><input type="radio" name="value" value="">
+											</td>
+											<td><input type="radio" name="value" value="">
+											</td>
+											<td><input type="radio" name="value" value="">
+											</td>
+											<td><input type="radio" name="value" value="">
+											</td>
+											<td><input type="radio" name="value" value="">
+											</td>
+										</tr>
+										</tbody>
+									</table>
+									<div class="row">
+										<div class="col-md-6 col-sm-6">
+											<div class="form-row">
+												<label class="lebel-abs"> Your Name <strong
+														class="red"> * </strong>
+												</label> <input type="text" name="" class="input namefild">
+											</div>
+											<div class="form-row">
+												<label class="lebel-abs"> Your Email <strong
+														class="red"> * </strong>
+												</label> <input type="email" name="" class="input emailfild">
+											</div>
+											<div class="form-row">
+												<label class="lebel-abs"> Summary of You Review <strong
+														class="red"> * </strong>
+												</label> <input type="text" name="" class="input summeryfild">
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-6">
+											<div class="form-row">
+												<label class="lebel-abs"> Your Name <strong
+														class="red"> * </strong>
+												</label>
+												<textarea class="input textareafild" name="" rows="7">
+                            </textarea>
+											</div>
+											<div class="form-row">
+												<input type="submit" value="Submit" class="button">
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="tab-content">
+								<div class="review">
+									<p class="rating">
+										<i class="fa fa-star light-red"> </i> <i
+											class="fa fa-star light-red"> </i> <i
+											class="fa fa-star light-red"> </i> <i
+											class="fa fa-star-half-o gray"> </i> <i
+											class="fa fa-star-o gray"> </i>
+									</p>
+									<h5 class="reviewer">Reviewer name</h5>
+									<p class="review-date">Date: 01-01-2014</p>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing
+										elit. Integer a eros neque. In sapien est, malesuada non
+										interdum id, cursus vel neque.</p>
+								</div>
+								<div class="review">
+									<p class="rating">
+										<i class="fa fa-star light-red"> </i> <i
+											class="fa fa-star light-red"> </i> <i
+											class="fa fa-star light-red"> </i> <i
+											class="fa fa-star-half-o gray"> </i> <i
+											class="fa fa-star-o gray"> </i>
+									</p>
+									<h5 class="reviewer">Reviewer name</h5>
+									<p class="review-date">Date: 01-01-2014</p>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing
+										elit. Integer a eros neque. In sapien est, malesuada non
+										interdum id, cursus vel neque.</p>
+								</div>
+							</div>
+							<div class="tab-content" id="tags">
+								<div class="tag">
+									Add Tags : <input type="text" name=""> <input
+										type="submit" value="Tag">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="hot-products">
+						<h3 class="title"> Sản phẩm<strong> Liên quan</strong></h3>
+						<ul id="MEN">
+							<li>
+								<div class="row">
+									<div class="col-md-4 col-sm-6" th:each="product : ${products}">
+										<div class="products">
+											<div class="thumbnail">
+												<div class="imgthumnail">
+													<a style="width: 176px"
+													   th:href="@{'/product/' + ${product.productID}}">
+														<img alt="Product Name"
+															 th:src="@{'/getimage/' + ${product.categoryID} + '/' + ${product.img}}"
+															 style="width: 120px"></a>
+													<div class="colorProduct">
+                                                        <span th:each="color : ${product.color}"
+															  th:style="'--data-color:'+${color.colorhex}"
+															  class="color-style"
+														></span>
+													</div>
+												</div>
+												<div class="imgShow">
+													<img th:each="imgprd : ${product.nameImg}"
+														 style="margin-bottom: 5px"
+														 alt="prd" onclick="showProduct(this)"
+														 th:src="@{'/getimage/' + ${product.categoryID} + '/' + ${imgprd}}">
+												</div>
+											</div>
+											<div class="productname" th:text="${product.name}">
+
+											</div>
+											<h4 class="price"
+												th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
+
+											</h4>
+											<div class="button_group" style="top: 87%">
+												<a th:href="@{'/product/' + ${product.productID}}">
+													<button class="button add-cart" type="button">
+														Thêm vào giỏ hàng
+													</button>
+												</a>
+												<button class="button wishlist" type="button">
+													<i class="fa fa-heart-o">
+													</i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="col-md-3">
+					<div class="special-deal leftbar">
+						<h4 class="title">
+							Sản phẩm bán chạy
+						</h4>
+						<div class="special-item" th:each="productTop : ${productTop}">
+							<div class="product-image">
+								<a href="productDetails.html"
+								   th:href="@{'/product/' + ${productTop.productID}}"> <img
+										th:src="@{'/images/product/' + ${productTop.category.categoryID} + '/' + ${productTop.img}}"
+										style="width: 170px" alt="Product Name">
+
+								</a>
+							</div>
+							<div class="product-info">
+								<p th:text="${productTop.name}"></p>
+								<h5 class="price"
+									th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' VND'} "></h5>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="product-tag leftbar">
+						<h3 class="title">
+							Products <strong> Tags </strong>
+						</h3>
+						<ul>
+							<li><a href="#"> Lincoln us </a></li>
+							<li><a href="#"> SDress for Girl </a></li>
+							<li><a href="#"> Corner </a></li>
+							<li><a href="#"> Window </a></li>
+							<li><a href="#"> PG </a></li>
+							<li><a href="#"> Oscar </a></li>
+							<li><a href="#"> Bath room </a></li>
+							<li><a href="#"> PSD </a></li>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
+					<div class="get-newsletter leftbar">
+						<h3 class="title">
+							Get <strong> newsletter </strong>
+						</h3>
+						<p>Casio G Shock Digital Dial Black.</p>
+						<form>
+							<input class="email" type="text" name=""
+								   placeholder="Your Email..."> <input class="submit"
+																	   type="submit" value="Submit">
+						</form>
+					</div>
+					<div class="clearfix"></div>
+					<div class="fbl-box leftbar">
+						<h3 class="title">Facebook</h3>
+						<span class="likebutton"> <a href="#"> <img
+								th:src="@{/images/fblike.png}" alt="">
+							</a>
+							</span>
+						<p>12k people like Flat Shop.</p>
+						<ul>
+							<li><a href="#"> </a></li>
+							<li><a href="#"> </a></li>
+							<li><a href="#"> </a></li>
+							<li><a href="#"> </a></li>
+							<li><a href="#"> </a></li>
+							<li><a href="#"> </a></li>
+							<li><a href="#"> </a></li>
+							<li><a href="#"> </a></li>
+						</ul>
+						<div class="fbplug">
+							<a href="#"> <span> <img
+									th:src="@{/images/fbicon.png}" alt="">
+								</span> Facebook social plugin
+							</a>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<div class="our-brand">
+				<h3 class="title">
+					<strong> Our </strong> Brands
+				</h3>
+				<div class="control">
+					<a id="prev_brand" class="prev" href="#"> &lt; </a> <a
+						id="next_brand" class="next" href="#"> &gt; </a>
+				</div>
+				<ul id="braldLogo">
+					<li>
+						<ul class="brand_item">
+							<li><a href="#">
+								<div class="brand-logo">
+									<img th:src="@{/images/envato.png}" alt="">
+								</div>
+							</a></li>
+							<li><a href="#">
+								<div class="brand-logo">
+									<img th:src="@{/images/themeforest.png}" alt="">
+								</div>
+							</a></li>
+							<li><a href="#">
+								<div class="brand-logo">
+									<img th:src="@{/images/photodune.png}" alt="">
+								</div>
+							</a></li>
+							<li><a href="#">
+								<div class="brand-logo">
+									<img th:src="@{/images/activeden.png}" alt="">
+								</div>
+							</a></li>
+							<li><a href="#">
+								<div class="brand-logo">
+									<img th:src="@{/images/envato.png}" alt="">
+								</div>
+							</a></li>
+						</ul>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+	<!-- Th:replace sẽ thay thế đoạn mã này bằng footer.html trong layout.html -->
+	<div th:replace="layout/footer :: footer"></div>
+
+</div>
+<!-- Bootstrap core JavaScript==================================================-->
+<script th:src="@{/js/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-1.10.2.min.js}">
+
+</script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}">
+
+</script>
+<script defer th:src="@{/js/jquery.flexslider.js}">
+
+</script>
+<script type="text/javascript"
+		th:src="@{/js/jquery.carouFredSel-6.2.1-packed.js}">
+
+</script>
+<script type="text/javascript" th:src='@{/js/jquery.elevatezoom.js}'>
+
+</script>
+<script type="text/javascript" th:src="@{/js/script.min.js}">
+
+</script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- Mã JavaScript -->
+<script th:inline="javascript">
+
+	async function changeColor(id) {
+		console.log(id)
+		const response = await fetch(`/api/product-color/${id}`);
+		const data = await response.json();
+		localStorage.setItem("listProductColorByProductId", JSON.stringify(data))
+		let list = JSON.parse(localStorage.getItem('listProductColorByProductId'))
+		let ul = document.querySelector('#gallery_01')
+		let cateID = document.querySelector('#categoryID').value
+		ul.innerHTML = ""
+		list.forEach((item, index) => {
+			ul.innerHTML += `<li class="pt" onclick = 'a(this)'
+				data-imgbigurl="/images/product/${cateID}/${item.image}"><img
+				src="/images/product/${cateID}/${item.image}"
+				alt="" th:id=" 'product_image' + ${index}"></li>`
+		})
+		let productThumbnail = document.querySelector("#product_thumbnail")
+		let category = productThumbnail.getAttribute("src").split("product/")[1].split("/")[0]
+
+
+		var url = '/api/product-color/' + id;
+		$.ajax({
+			type: 'POST',
+			url: url,
+			contentType: 'application/json; charset=UTF-8',
+			dataType: 'json',
+			success: function (data) {
+
+				$('#product_thumbnail').attr('src',
+						`/images/product/` + category + '/' + data[0].image);
+				$('#product_image0').attr('src',
+						`/images/product/` + category + '/' + data[0].image);
+				$('#product_image0').parent().attr('data-imgbigurl',
+						`/images/product/` + category + '/' + data[0].image);
+				$('#product_image1').attr('src',
+						`/images/product/` + category + '/' + data[1].image);
+				$('#product_image1').parent().attr('data-imgbigurl',
+						`/images/product/` + category + '/' + data[1].image);
+				$('#product_image2').attr('src',
+						`/images/product/` + category + '/' + data[2].image);
+				$('#product_image2').parent().attr('data-imgbigurl',
+						`/images/product/` + category + '/' + data[2].image);
+				$('#product_image3').attr('src',
+						`/images/product/` + category + '/' + data[3].image);
+				$('#product_image3').parent().attr('data-imgbigurl',
+						`/images/product/` + category + '/' + data[3].image);
+				// console.log(data[0].image);
+			}
+		});
+		return id;
+	}
+
+	window.addEventListener("load", () => {
+		changeColor(document.getElementsByName("12")[0].getAttribute("value"))
+
+	})
+
+	function a(id) {
+		let image = id.getAttribute("data-imgbigurl")
+		$('#product_thumbnail').attr('src', image);
+	}
+
+	$('.pt').click(function () {
+		var image = $(this).attr('data-imgbigurl');
+		console.log(image)
+		$('#product_thumbnail').attr('src', image);
+	});
+	$('.thum-image .pt').on('click', function () {
+		$('.thum-image .pt').removeClass('active');
+		$(this).addClass('active');
+		var imgurl = $(this).data('imgbigurl');
+		var bigImg = $('.preview-small').attr('src');
+		if (imgurl != bigImg) {
+			$('.preview-small').attr({src: imgurl});
+			$('.zoomImg').attr({src: imgurl});
+		}
+	});
+	document.querySelector("#addcard").addEventListener("click", () => {
+		console.log($(".color"));
+	})
+</script>
+<script>
+
+	var selectedColors = [];
+
+	function chooseColor(colorID) {
+		var selectedColor = document.querySelector('label[for="' + colorID + '"]');
+		var colorHex = selectedColor.getAttribute('data-color-hex');
+		var productID = selectedColor.previousElementSibling.getAttribute('data-productid');
+		console.log(colorHex)
+		// Sử dụng colorID, colorHex và productID cho các tác vụ tiếp theo, ví dụ: thêm vào giỏ hàng
+
+		selectedColors.push({
+			colorID: colorID,
+			colorHex: colorHex,
+			productID: productID
+		});
+
+		console.log(selectedColors);
+	};
+
+
+	function addToCart(productID, quantity = 1) {
+
+		var selectedColorID = $('input[name="color"]:checked').val();
+		selectedColorID === undefined && (selectedColorID = $('input[name="color"]').val());
+		var api_url = `${location.protocol}\/\/${location.host}`;
+		let product_thumbnail = document.querySelector("#product_thumbnail").getAttribute("src").split("/product")[1].split("/")[1]
+
+		var endpoint = `${api_url}/api/cart/update?productID=${productID}&colorID=${selectedColorID}&quantity=${quantity}&categoryID=${product_thumbnail}&isReplace=false`;
+		$.ajax({
+			url: endpoint,
+			type: 'GET',
+			dataType: 'json',
+			success: function (data) {
+				$('#headerToTalPrice').text(numberWithDot(data.totalPrice));
+				$('#headerToTalQuantity').text(data.totalQuantity);
+				alert('Đã thêm sản phẩm vào giỏ hàng');
+			},
+			error: function (data) {
+				alert('Vui lòng chọn màu khi mua!');
+			}
+		});
+	}
+
+	function numberWithDot(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' ₫';
+	}
+
+</script>
+<script>
+	window.onload = () => {
+		location.href.includes("page") && window.scrollBy(0, 966.4000244140625);
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" th:href="@{images/favicon.png}">
+  <title>Welcome to FlatShop</title>
+  <link th:href="@{css/bootstrap.css}" rel="stylesheet">
+  <link
+          href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100'
+          rel='stylesheet' type='text/css'>
+  <link th:href="@{css/font-awesome.min.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{css/flexslider.css}" type="text/css"
+        media="screen" />
+  <link th:href="@{css/style.css}" rel="stylesheet" type="text/css">
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
+  </script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js">
+  </script>
+  <![endif]-->
+</head>
+<body id="body">
+<div class="wrapper">
+  <!-- Th:replace sẽ thay thế đoạn mã này bằng footer.html trong layout.html -->
+  <div th:replace="layout/header :: header"></div>
+</div>
+<div class="clearfix"></div>
+<div class="page-index">
+  <div class="container">
+    <p>Trang chủ - Giỏ hàng</p>
+  </div>
+</div>
+</div>
+<div class="clearfix" id="clearfix"> </div>
+<div class="container_fullwidth">
+  <div class="container shopping-cart">
+    <div class="row" id="row">
+      <div class="col-md-12">
+        <h3 class="title">Giỏ hàng</h3>
+        <div class="clearfix"></div>
+        <table class="shop-table">
+          <thead>
+          <tr>
+            <!--                    <th>-->
+
+            <!--                    </th>-->
+            <th>Ảnh</th>
+            <th>Chi tiết</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Tổng tiền</th>
+            <th>Xoá</th>
+          </tr>
+          </thead>
+          <tbody id="cartItems">
+          <tr class="cartItem"
+              th:data-product-id="${detail.value.productID}"
+              th:each="detail,index : ${session.currentCart.details}">
+            <!--                    <td th:text="${index.index + 1}"></td>-->
+            <td><img id="product_thumbnail"
+                    th:src="@{'images/product/'+ ${detail.value.categoryID} + '/' + ${detail.value.img}}" alt="" >
+            </td>
+            <td>
+              <div class="shop-details">
+                <div class="productname" id="nameProduct" th:text="${detail.value.nameProduct} " style ='display : none'>
+                </div>
+                <div class="productname" id="valNameProduct"></div>
+                <!-- <p>
+                  <img alt="" src="images/star.png"> <a
+                        class="review_num" href="#"> 02 Review(s) </a>
+                </p> -->
+                <div class="color-choser">
+                  <span class="text"> Product Color : </span>
+                  <ul>
+                    <li><a href=""
+                           th:style="'background-color: ' + ${detail.value.colorhex}">
+                    </a></li>
+                  </ul>
+                </div>
+                <!-- <p>
+                  Product Code : <strong class="pcode"> Dress 120 </strong>
+                </p> -->
+              </div>
+            </td>
+            <td>
+              <h5 th:text="${#numbers.formatDecimal(detail.value.price, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+
+              </h5>
+            </td>
+            <td><input type="number" class="input-text qty text"
+                       title="Qty"  style="width: 60px"
+                       th:value="${detail.value.quantity}"min="1" step="1"
+                       th:attr="onchange='updateProduct(\'' +${detail.key}+ '\')'"
+                       th:id="quantity+${detail.key}">
+            </td>
+            <td>
+              <h5>
+                <strong class="red"
+                        th:text="${#numbers.formatDecimal(detail.value.price * detail.value.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'"> 
+
+                </strong>
+              </h5>
+            </td>
+            <td>
+              <button class=" removeButton" th:attr="onclick='removeProduct(\'' +${detail.key}+ '\')'">Xóa</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="clearfix"></div>
+        <div class="row">
+          <div class="col-md-12 col-sm-6">
+            <div class="shippingbox">
+              <div class="grandtotal">
+                <h5>TỔNG TIỀN</h5>
+                <span id="CartToTalPrice"
+                      th:text="${#numbers.formatDecimal(session.currentCart.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+									</span>
+              </div>
+           
+            <hr>
+            <hr>
+              <div class="log"> <a th:href="@{/cart/checkout}">THANH TOÁN</a></div>
+            </div>
+             <div class="continute-shopping"><a th:href="@{/productgird}">TIẾP TỤC MUA SẮM</a></div>
+          </div>
+          <br><br><br><br><br><br>
+          <h5 class="text-center" style="color: red; margin-top: -15px" th:text="${message}"></h5>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="our-brand">
+      <h3 class="title">
+        <strong> Our </strong> Brands
+      </h3>
+      <div class="control">
+        <a id="prev_brand" class="prev" href="#"> &lt; </a> <a
+              id="next_brand" class="next" href="#"> &gt; </a>
+      </div>
+      <ul id="braldLogo">
+        <li>
+          <ul class="brand_item">
+            <li><a href="#">
+              <div class="brand-logo">
+                <img src="images/envato.png" alt="">
+              </div>
+            </a></li>
+            <li><a href="#">
+              <div class="brand-logo">
+                <img src="images/themeforest.png" alt="">
+              </div>
+            </a></li>
+            <li><a href="#">
+              <div class="brand-logo">
+                <img src="images/photodune.png" alt="">
+              </div>
+            </a></li>
+            <li><a href="#">
+              <div class="brand-logo">
+                <img src="images/activeden.png" alt="">
+              </div>
+            </a></li>
+            <li><a href="#">
+              <div class="brand-logo">
+                <img src="images/envato.png" alt="">
+              </div>
+            </a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<!-- Th:replace sẽ thay thế đoạn mã này bằng footer.html trong layout.html -->
+<div th:replace="layout/footer :: footer"></div>
+</div>
+<!-- Bootstrap core JavaScript==================================================-->
+<script type="text/javascript" th:src="@{js/jquery-1.10.2.min.js}">
+
+</script>
+<script type="text/javascript" th:src="@{js/bootstrap.min.js}">
+
+</script>
+<script defer th:src="@{js/jquery.flexslider.js}">
+
+</script>
+<script type="text/javascript"
+        th:src="@{js/jquery.carouFredSel-6.2.1-packed.js}">
+
+</script>
+<script type="text/javascript" th:src="@{js/script.min.js}">
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function removeProduct(colorID, productID) {
+    let product_thumbnail = document.querySelector("#product_thumbnail").getAttribute("src").split("/product")[1].split("/")[1]
+    var url = '/cart/update?colorID='+ colorID + '&productID='+ productID + '&quantity=0'+ '&categoryID=' + product_thumbnail + '&isReplace=false';
+    $.get(url).done(function(data) {
+      $('#row').replaceWith(data);
+    })
+  }
+  function updateProduct(colorID, productID) {
+    var idInput = '#quantity' + colorID, productID;
+    var newQuantity = $(idInput).val();
+    let product_thumbnail = document.querySelector("#product_thumbnail").getAttribute("src").split("/product")[1].split("/")[1]
+
+    var url = '/cart/update?colorID=' + colorID + '&productID=' + productID + '&quantity=' + newQuantity + '&categoryID=' + product_thumbnail + '&isReplace=true';
+    $.get(url).done(function (data) {
+      $('#row').replaceWith(data);
+    });
+  }
+
+   function checkout() {
+    var address = $('#address').val();
+    var phone = $('#phone_number').val();
+    var email = $('#email').val();
+    var endpoint = '/api/cart/checkout?address=' + address + '&phone=' + phone + '&email=' + email ;
+    $.ajax({
+      url: endpoint,
+      type: 'GET',
+      statusCode: {
+        200: handle200,
+        400: handle400,
+        401: handle401
+      }
+    });
+  } 
+  function handle200() {
+    alert('thanh cong');
+    window.location.href = '/home';
+  }
+  function handle400() {
+    alert('that bai , thu lai');
+  }
+  function handle401() {
+    alert('vui long login truoc khi thanh toan');
+    window.location.href = '/login';
+  }
+
+  window.addEventListener("load", () => {
+   let cartItems = document.querySelector("#cartItems")
+    console.log(cartItems)
+    let items = cartItems.children
+    for (index = 0; index <  items.length; index++){
+     let valueName = items[index].children[1].children[0].children[0].innerHTML
+      items[index].children[1].children[0].children[1].innerHTML = valueName.replace( valueName.slice(valueName.indexOf("(")), "")
+    }
+  })
+
+
+</script>
+</body>
+</html>

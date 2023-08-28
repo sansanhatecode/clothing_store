@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login V3</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <!--===============================================================================================-->
+    <link rel="icon" th:href="@{login/images/icons/favicon.ico}" type="image/png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" th:href="@{login/vendor/bootstrap/css/bootstrap.min.css}" type="text/css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" th:href="@{login/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" type="text/css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" th:href="@{login/fonts/iconic/css/material-design-iconic-font.min.css}" type="text/css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" th:href="@{login/vendor/animate/animate.css}" type="text/css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" th:href="@{login/vendor/css-hamburgers/hamburgers.min.css}" type="text/css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" th:href="@{login/vendor/animsition/css/animsition.min.css}" type="text/css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" th:href="@{login/vendor/select2/select2.min.css}" type="text/css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" th:href="@{login/vendor/daterangepicker/daterangepicker.css}" type="text/css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" th:href="@{login/css/util.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{login/css/main.css}" type="text/css">
+    <!--===============================================================================================-->
+</head>
+<body>
+
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('static/login/images/bg-01.jpg');">
+        <div class="wrap-login100">
+            <form class="login100-form validate-form" method="POST" th:action="@{/register}" th:object="${userRequest}">
+					<span class="login100-form-title p-b-43">
+						Đăng ký
+					</span>
+
+                <div class="wrap-input100 validate-input" data-validate="Nhập tên đăng nhập">
+                    <i aria-hidden="true"></i>
+
+                    <input class="input100" onblur="onblurCheck(this)" onfocus="onfocusCheck(this)"
+                           placeholder="Tên đăng nhập"
+                           th:field="*{userID}" type="text">
+                    <span class="focus-input100 "></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Nhập họ và tên">
+                    <i aria-hidden="true"></i>
+                    <input class="input100" onblur="onblurCheck(this)" onfocus="onfocusCheck(this)"
+                           placeholder="Họ và tên"
+                           th:field="*{username}" type="text">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Nhập mật khẩu">
+                    <i aria-hidden="true" onclick="showPassword(this)" style="text-align: center; color: #fff; position: absolute; right: 0;top: 17px; font-size: 21px;cursor: pointer" class="fa-regular fa-eye"></i>
+                    <input class="input100" name="password" onblur="onblurCheck(this)" onfocus="onfocusCheck(this)"
+                           placeholder="Mật khẩu" th:field="*{password}" type="password">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input"  data-validate="Email phải có dạng : ex@abc.xyz">
+                    <i aria-hidden="true"></i>
+                    <input class="input100" name="email" onblur="onblurCheck(this)" onfocus="onfocusCheck(this)" placeholder="Email" th:field="*{email}" type="text">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Nhập số điện thoại">
+                    <i aria-hidden="true"></i>
+                    <input class="input100" maxlength="11" name="phone" onblur="onblurCheck(this)"
+                           onfocus="onfocusCheck(this)" placeholder="Số điện thoại" th:field="*{phone}" type="text">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Nhập địa chỉ">
+                    <i aria-hidden="true"></i>
+                    <input class="input100" name="address" onblur="onblurCheck(this)" onfocus="onfocusCheck(this)"
+                           placeholder="Địa chỉ" th:field="*{address}" type="text">
+                    <span class="focus-input100"></span>
+                </div>
+                <br>
+                <h5 class="text-center" style="color: red; margin-top: -15px" th:text="${message}"></h5>
+                <br>
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn">
+                        Đăng ký
+                    </button>
+                </div>
+                <div class="text-center p-t-50">
+                    <a class="txt1" th:href="@{/login}">
+                        <h7>Đăng nhập</h7>
+                    </a>
+                </div>
+                <hr>
+                <div class="text-center p-t-50">
+                    <a class="txt1" th:href="@{/home}"><h6>Trang chủ</h6></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script th:src="@{login/vendor/jquery/jquery-3.2.1.min.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{login/vendor/animsition/js/animsition.min.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{login/vendor/bootstrap/js/popper.js}"></script>
+<script th:src="@{login/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{login/vendor/select2/select2.min.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{login/vendor/daterangepicker/moment.min.js}"></script>
+<script th:src="@{login/vendor/daterangepicker/daterangepicker.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{login/vendor/countdowntime/countdowntime.js}"></script>
+<!--===============================================================================================-->
+<script th:src="@{login/js/main.js}"></script>
+<!--regex form -->
+<script>
+    function regex(value) {
+        //regex name đang bị lỗi gì đó
+        let rgEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+        let rgPhone = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+        let rgName = /^[ a-zA-Z]{2,}$/
+        let rgUserID = /^[a-zA-Z0-9_@#$%^&]{6,15}$/
+        let rgPassWord = /^[\w_@!]{6,50}$/
+        let mess
+        let regex = new RegExp();
+        let val = value.value;
+        let object = {
+            userID : "Tên đăng nhập",
+            username : "Họ và tên",
+            email: "email",
+            password: "Mật khẩu",
+            phone: "Số điện thoại",
+            address: "Địa chỉ"        }
+        if (val === "") {
+            mess = object[value.getAttribute("name")] + " không được để trống";
+        } else {
+            switch (value.getAttribute("name")) {
+                case "userID":
+                    regex = rgUserID;
+                    break;
+                case "username":
+                    regex = rgName;
+                    val = removeAscent(value.value);
+                    break;
+                case "email":
+                    regex = rgEmail;
+                    break;
+                case "password":
+                    regex = rgPassWord;
+                    break;
+                case "phone":
+                    regex = rgPhone;
+                    break;
+            }
+            if (!regex.test(val)) {
+                mess = object[value.getAttribute("name")] + " không hợp lệ"
+            } else {
+                mess = "";
+            }
+        }
+
+        return mess;
+    }
+
+    // function bỏ dấu tên
+    function removeAscent(name) {
+        if (name === null || name === undefined) return name;
+        name = name.toLowerCase();
+        name = name.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+        name = name.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+        name = name.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        name = name.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+        name = name.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+        name = name.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        name = name.replace(/đ/g, "d");
+        return name;
+    }
+
+    async function onblurCheck(val) {
+        val.previousElementSibling.removeAttribute("id");
+        let Array = ["userID", "email", "phone"]
+        let Error;
+        if (regex(val) === "" && (Array.includes(val.getAttribute("name")))) {
+            let req = [val.getAttribute("name"), val.value]
+            const rep = await fetch("api/validateForm", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(req)
+            })
+           await rep.text().then((val2) => {
+                val.nextElementSibling.innerHTML = val2
+                val2 != "" ? Error = true : Error = false;
+            })
+        } else {
+            val.nextElementSibling.innerHTML = regex(val);
+            regex(val) !== "" ? Error = true : Error = false;
+        }
+        if (val.getAttribute("name") === "password"){
+
+        } else{
+            if (Error){
+                let cssIcon = "text-align: center; color: red; position: absolute; right: 0;top: 17px; height: 21px; width: 21px; background-color: #fff; font-size: 21px; border-radius: 50%;"
+                val.previousElementSibling.setAttribute("style",cssIcon)
+                val.previousElementSibling.setAttribute("class","fa fa-times-circle")
+            } else {
+                val.previousElementSibling.setAttribute("style","color:#0ef046; position: absolute; right: 0; top: 20px; height: 20px; width: 20px;text-align: center; background-color: #fff; font-size: 21px; border-radius: 50%;")
+                val.previousElementSibling.setAttribute("class","fa fa-check-circle-o")
+
+            }
+        }
+
+    }
+    function showPassword(val){
+        val.getAttribute("class") === "fa-regular fa-eye" ? val.setAttribute("class","fa-regular fa-eye-slash") : val.setAttribute("class","fa-regular fa-eye")
+        val.nextElementSibling.getAttribute("type") === "password" ? val.nextElementSibling.setAttribute("type","text") : val.nextElementSibling.setAttribute("type","password")
+    }
+    function onfocusCheck(val) {
+        val.previousElementSibling.setAttribute("id","hide");
+        switch (val.getAttribute("name")) {
+            case "userID":
+                val.nextElementSibling.innerHTML = "Tài khoản không chứa kí tự đặc biệt và tối thiểu 6 kí tự";
+                break;
+            case "username":
+                val.nextElementSibling.innerHTML = "Họ tên không chứa kí tự đặc biệt, chữ số và tối thiểu 6 kí tự";
+                break;
+            case "email":
+                val.nextElementSibling.innerHTML = "";
+                break;
+            case "password":
+                val.nextElementSibling.innerHTML = "Mật khẩu không chứa kí tự khoảng trắng và tối thiểu 6 kí tự";
+                break;
+            case "phone":
+                val.nextElementSibling.innerHTML = "Số điện thoại phải chứa 10 chữ số";
+                break;
+            case "address":
+                val.nextElementSibling.innerHTML = "";
+                break;
+        }
+
+    }
+
+    // <i className="fa fa-check" aria-hidden="true" style="color:#239f42; position: absolute; right: 0; top: 20px"></i>
+</script>
+</body>
+</html>

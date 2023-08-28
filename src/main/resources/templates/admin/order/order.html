@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1"
+          name="viewport">
+    <title>Modern Admin Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet">
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/order.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link crossorigin="anonymous"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          referrerpolicy="no-referrer" rel="stylesheet"/>
+    <link href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+          rel="stylesheet">
+</head>
+<body >
+<input id="menu-toggle" type="checkbox">
+<div th:replace="admin/sidemenu :: div"></div>
+<div class="main-content">
+
+    <header>
+        <div class="header-content">
+            <label for="menu-toggle"> <span class="las la-bars"></span>
+            </label>
+
+            <div class="header-menu">
+                <div class="user">
+                    <!--<div class="bg-img" style="background-image: url(/images/1.jpeg)"></div>&ndash;&gt;-->
+                    <span><a class="log" th:href="@{/logout}">Đăng xuất</a></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+
+        <div class="page-header">
+            <h1>Quản lý đơn hàng</h1>
+            <small>Quản lý / Đơn hàng</small>
+        </div>
+
+        <div class="page-content">
+
+            <div class="analytics">
+
+                <div class="card" onclick="submit(this)" id="All" >
+                    <div class="card-head">
+                        <h2  id="allOrder" th:text="${countAllOrder}"></h2>
+                        <span style="margin-right: 120px; font-size: 1.5rem; margin-bottom: 6px">Đơn hàng</span>
+                        <span class="order">100%</span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Tất cả đơn hàng </small>
+                        <div class="card-indicator">
+                            <div class="indicator one" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="submit(this)" id="done">
+                    <div class="card-head">
+                        <h2 class="ord" th:text="${countDoneOrder}"></h2>
+                        <span style="margin-right: 120px; font-size: 1.5rem; margin-bottom: 6px">Đơn hàng</span>
+                        <span id="countDoneOrder" class="order"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Đơn hàng đã hoàn thành</small>
+                        <div class="card-indicator">
+                            <div class="indicator two" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="submit(this)" id="CancelOrder">
+                    <div class="card-head">
+                        <h2 class="ord" id="hda" th:text="${countFalseOrder}"></h2>
+                        <span style="margin-right: 120px; font-size: 1.5rem; margin-bottom: 6px">Đơn hàng</span>
+                        <span id="countFalseOrder" class="order"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Đơn hàng đã hủy</small>
+                        <div class="card-indicator">
+                            <div class="indicator three"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="submit(this)" id="Processing">
+                    <div class="card-head">
+                        <h2 class="ord" th:text="${countProcessingOrder}" ></h2>
+                        <span style="margin-right: 120px; font-size: 1.5rem; margin-bottom: 6px">Đơn hàng</span>
+                        <span id="countProcessingOrder" class="order"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Đơn hàng đang xử lý</small>
+                        <div class="card-indicator">
+                            <div class="indicator four" style="width: 90%"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="records table-responsive">
+
+                <div class="record-header">
+                    <div class="add">
+                        <span>Mục</span>
+                        <form   method="get" th:object="${sellingProductsDTO}" th:action="@{/admin/order}">
+                            <select  th:field="*{monthAndYear}"  onchange="this.form.submit()">
+                                <option  th:each="val : ${MonthAndCount}" th:value="${val}" th:text="${val}" ></option>
+                                <option  value="All">Tất cả</option>
+                            </select>
+                        </form>
+
+                    </div>
+                </div>
+
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><span class="las la-sort"></span>Mã hoá đơn</th>
+                            <th><span class="las la-sort"></span> Địa chỉ</th>
+                            <th><span class="las la-sort"></span> Số điện thoại</th>
+                            <th><span class="las la-sort"></span> Email</th>
+                            <th><span class="las la-sort"></span>Tổng tiền</th>
+                            <th><span class="las la-sort"></span> Ngày</th>
+                            <th><span class="las la-sort"></span> Mã người đặt</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr onclick="check(this)" th:class="'a'+ ${Orders.orderID}" th:each="Orders,idx : ${Orders}">
+                            <td>[[${Orders.orderID}]]</td>
+                            <td>[[${Orders.address}]]</td>
+                            <td>[[${Orders.phone}]]</td>
+                            <td>[[${Orders.email}]]</td>
+                            <td>[[${Orders.price}]]</td>
+                            <td>[[${Orders.date}]]</td>
+                            <td>[[${Orders.user.userID}]]</td>
+                            <td class="default" th:id="'a'+${Orders.orderID}">
+                                <i class="exit fa-solid fa-xmark exitFormOrderDetail"
+                                   onclick="exitFormOrderDetail()"></i>
+                                <table class="showOrderDetailTable">
+                                    <thead>
+                                    <tr>
+                                        <th><span class="las la-sort"></span> Tên người mua</th>
+                                        <th><span class="las la-sort"></span> Tên sản phẩm</th>
+                                        <th><span class="las la-sort"></span> Màu sản phẩm</th>
+                                        <th><span class="las la-sort"></span> Giá</th>
+                                        <th><span class="las la-sort"></span> Số lượng</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="listOrder, id : ${listOrderDetails.get(idx.index)}">
+                                        <td th:text="${Orders.user.username} == 'default' ? ${Orders.customer}: ${Orders.user.username} "></td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getProduct().getName()}"></td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getColorId().getColor_name()}">
+                                            Màu sản phẩm
+                                        </td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getPrice()}"></td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getQuantity()}"></td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--                    pagination-->
+                    <div id="pagination">
+                        <div
+                                th:if="${currentPage > 1 }">
+                            <a th:class="${Orders == Orders.number } ? ${active} : pagination "
+                               th:href="@{${url}(size=${Orders.size}, page=${currentPage - 1} )}"
+                            >Trang trước</a>
+                        </div>
+                        <div
+                                th:unless="${currentPage > 1}">
+                            <a th:class="${dislabled}">Trang trước</a>
+                        </div>
+                        <div>
+                            <a th:class="${currentPage == 1 } ? ${active} : pagination"
+                               th:href="@{${url}(size=${Orders.size}, page=1 )}"
+                               th:text="1"
+                            ></a>
+                        </div>
+                        <div th:if="${ 1 < currentPage and currentPage < Orders.totalPages}">
+                            <a th:class="${currentPage } ? ${active} "
+                               th:href="@{${url}(size=${Orders.size}, page=${currentPage} )}"
+                               th:text="${currentPage}"
+                            ></a>
+                        </div>
+
+                        <div>
+                            <a th:class="${currentPage} ?  pagination"
+                            >...</a>
+                        </div>
+                        <div>
+                            <a th:class="${currentPage == Orders.totalPages } ? ${active} : pagination"
+                               th:href="@{${url}(size=${Orders.size}, page=${Orders.totalPages} )}"
+                               th:text="${Orders.totalPages}"
+                            ></a>
+                        </div>
+                        <div
+                                th:if="${Orders.totalPages > currentPage}">
+                            <a th:class="${currentPage ==Orders.number} ? ${active} : pagination"
+                               th:href="@{${url}(size=${Orders.size}, page=${currentPage+1})}"
+                            >Trang sau</a>
+                        </div>
+                        <div th:unless="${Orders.totalPages > currentPage}">
+                            <a th:class="${dislabled}">Trang sau</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</div>
+</body>
+<script>
+    function check(item) {
+        let dv = document.querySelector(".activeTable")
+        let lastChildItem = item.lastChild.previousElementSibling;
+        let id = item.getAttribute("class")
+        let b = document.querySelector(`#${id}`)
+        dv != null && dv.classList.remove("activeTable")
+        lastChildItem.getAttribute("handleExit") == null ? b.classList.add("activeTable") : lastChildItem.removeAttribute("handleExit")
+    }
+
+    const exitFormOrderDetail = () => {
+        let dv = document.querySelector(".activeTable")
+        dv.classList.remove("activeTable")
+        dv.setAttribute("handleExit", "true")
+    }
+    window.addEventListener("load", () => {
+        location.href.includes("/order") && document.querySelector(".oderIcon").setAttribute("style", "color:#fff; scale:1.1")
+        let listorder = document.getElementsByClassName("ord")
+        for (const orderElement of listorder) {
+        let param = orderElement.innerHTML * 100 / document.querySelector("#allOrder").innerHTML
+            orderElement.parentElement.nextElementSibling.children[1].children[0].setAttribute("style",`width:${param.toFixed(2)}%`)
+            orderElement.nextElementSibling.nextElementSibling.innerHTML = param.toFixed(2) + "%"
+        }
+    })
+    function submit(val) {
+        let id = val.getAttribute("id").trim()
+        let monthAndYear = document.querySelector("#monthAndYear").value;
+         location.href = `http://localhost:8080/admin/order?StatusOrd=${id}&MonthAndYear=${monthAndYear}`
+    }
+    function handleCssCard(val){
+        console.log("alo")
+        let param = val.innerHTML * 100 / document.querySelector("#allOrder").innerHTML
+        val.parentElement.nextElementSibling.children[1].children[0].setAttribute("style",`width:${param.toFixed(2)}%`)
+        val.nextElementSibling.nextElementSibling.innerHTML = param.toFixed(2) + "%"
+    }
+</script>
+</html>
+<!--let param = val.innerHTML * 100 / document.querySelector('#allOrder').innerHTML-->
+<!--val.parentElement.nextElementSibling.children[1].children[0].setAttribute('style',`width:${param.toFixed(2)}%`)-->
+<!--val.nextElementSibling.nextElementSibling.innerHTML = param.toFixed(2) + '%'-->
